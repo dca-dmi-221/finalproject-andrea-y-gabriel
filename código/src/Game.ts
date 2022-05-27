@@ -4,11 +4,11 @@ import p5 from 'p5';
 
 const sketch = (p: p5) => {
   p.setup = () => {
-    p.createCanvas(500, 500);
+    p.createCanvas(1200, 500);
   };
 
   p.draw = () => {
-    p.background(80);
+    p.background(10);
   };
 
   p.keyPressed = () => {

@@ -24,5 +24,17 @@
     "p5": "^1.4.1",
     "vite": "^2.9.7",
     "vitest": "^0.10.5"
-  }
+  },
+  "description": "```\r npm install\r ```",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dca-dmi-221/finalproject-andrea-y-gabriel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dca-dmi-221/finalproject-andrea-y-gabriel/issues"
+  },
+  "homepage": "https://github.com/dca-dmi-221/finalproject-andrea-y-gabriel#readme"
 }
