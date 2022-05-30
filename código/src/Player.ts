@@ -28,17 +28,15 @@ export default class Player {
 
   show(p: p5) {
     // p.image(this.imageActual, this.posX - 9.5, this.posY - 48);
-    p.imageMode(p.CENTER);
     if (this.direction === 'DOWN') {
-      p.image(this.image1, this.posX + 24, this.posY);
+      p.image(this.image1, this.posX - 9.5, this.posY - 48);
     } else if (this.direction === 'UP') {
-      p.image(this.image2, this.posX + 24, this.posY);
+      p.image(this.image2, this.posX - 9.5, this.posY - 48);
     } else if (this.direction === 'RIGHT') {
-      p.image(this.image3, this.posX + 24, this.posY);
+      p.image(this.image3, this.posX - 9.5, this.posY - 48);
     } else {
-      p.image(this.image4, this.posX + 24, this.posY);
+      p.image(this.image4, this.posX - 9.5, this.posY - 48);
     }
-    p.imageMode(p.CORNER);
   }
 
   move(direction: PlayerDirection) {
@@ -46,25 +44,21 @@ export default class Player {
       case 'DOWN':
         if (this.refMap?.canMove(this.pcFil, this.pcCol + 1)) {
           this.pcCol += 1;
-          this.imageActual = this.image1;
         }
         break;
       case 'UP':
         if (this.refMap?.canMove(this.pcFil, this.pcCol - 1)) {
           this.pcCol -= 1;
-          this.imageActual = this.image2;
         }
         break;
       case 'LEFT':
         if (this.refMap?.canMove(this.pcFil - 1, this.pcCol)) {
           this.pcFil -= 1;
-          this.imageActual = this.image3;
         }
         break;
       case 'RIGHT':
         if (this.refMap?.canMove(this.pcFil + 1, this.pcCol)) {
           this.pcFil += 1;
-          this.imageActual = this.image4;
         }
         break;
       default:
@@ -77,6 +71,14 @@ export default class Player {
   truePosition() {
     this.posX = (this.pcFil * PLAYERSIZE) + 288;
     this.posY = (this.pcCol * PLAYERSIZE);
+  }
+
+  getX() {
+    return this.posX;
+  }
+
+  getY() {
+    return this.posY;
   }
 
   getFil() {

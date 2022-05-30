@@ -3,10 +3,12 @@ import './style.css';
 import p5, { Image } from 'p5';
 import Player from './Player';
 import Map from './Map';
+import Enemy from './Enemy';
 
 const LEVEL1 = new Map();
-const PLAYER1 = new Player(3, 1);
+const PLAYER1 = new Player(1, 1);
 const PLAYER2 = new Player(3, 1);
+const ENEMIES2 = new Enemy(17, 1);
 
 let gui!: Image;
 let viewD1pj!: Image;
@@ -18,6 +20,11 @@ let viewD2pj!: Image;
 let viewU2pj!: Image;
 let viewR2pj!: Image;
 let viewL2pj!: Image;
+
+let viewD1Enemy2!: Image;
+let viewU1Enemy2!: Image;
+let viewR1Enemy2!: Image;
+let viewL1Enemy2!: Image;
 
 const sketch = (p: p5) => {
   p.preload = () => {
@@ -40,12 +47,23 @@ const sketch = (p: p5) => {
     PLAYER2.setImage3(viewR2pj);
     viewL2pj = p.loadImage('../assests/Player/player2D.png');
     PLAYER2.setImage4(viewL2pj);
+
+    viewD1Enemy2 = p.loadImage('../assests/Player/Bufalo2A.png');
+    ENEMIES2.setImage1(viewD1Enemy2);
+    viewU1Enemy2 = p.loadImage('../assests/Player//Bufalo2B.png');
+    ENEMIES2.setImage2(viewU1Enemy2);
+    viewR1Enemy2 = p.loadImage('../assests/Player//Bufalo2C.png');
+    ENEMIES2.setImage3(viewR1Enemy2);
+    viewL1Enemy2 = p.loadImage('../assests/Player//Bufalo2D.png');
+    ENEMIES2.setImage4(viewL1Enemy2);
   };
 
   p.setup = () => {
     p.createCanvas(1200, 720);
     PLAYER1.setMap(LEVEL1);
     PLAYER2.setMap(LEVEL1);
+    ENEMIES2.setMap(LEVEL1);
+    console.log(LEVEL1);
   };
 
   p.draw = () => {
@@ -53,13 +71,16 @@ const sketch = (p: p5) => {
     LEVEL1.show(p);
     PLAYER1.show(p);
     PLAYER2.show(p);
-    LEVEL1.showLevel2(p, PLAYER1.getFil(), PLAYER1.getCol(), 1);
-    LEVEL1.showLevel2(p, PLAYER2.getFil(), PLAYER2.getCol(), 2);
+    ENEMIES2.show(p);
+    ENEMIES2.move(p);
+    LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
+
     p.image(gui, 0, 0);
   };
 
   p.keyPressed = () => {
     const K = p.key.toLowerCase();
+    console.log(PLAYER1.getFil(), PLAYER1.getCol());
 
     if (p.keyCode === p.RIGHT_ARROW) {
       PLAYER1.move('RIGHT');
