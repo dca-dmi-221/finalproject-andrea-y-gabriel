@@ -42,7 +42,6 @@ const sketch = (p: p5) => {
 
   p.draw = () => {
     p.background(10);
-    // app.show(p);
     app.changeScreen(p);
 
     p.image(gui, 0, 0);

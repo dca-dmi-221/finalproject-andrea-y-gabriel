@@ -8,7 +8,6 @@ import Zebra from './Zebra';
 const LEVEL1 = new Map();
 const PLAYER1 = new Player(1, 1);
 const PLAYER2 = new Player(3, 1);
-let ENEMY!: Enemy;
 
 export default class App {
   enemies: Array <Enemy>;
@@ -36,15 +35,7 @@ export default class App {
     PLAYER2.setImage4(this.player2[3]);
     PLAYER1.setMap(LEVEL1);
     PLAYER2.setMap(LEVEL1);
-    ENEMY = new Enemy(15, 1, this.buffalo[0], this.buffalo[1], this.buffalo[2], this.buffalo[3]);
   }
-
-  // eslint-disable-next-line class-methods-use-this
-  // show(p: p5) {
-  //   LEVEL1.show(p, LEVEL1.level1);
-  //   PLAYER1.show(p);
-  //   PLAYER2.show(p);
-  // }
 
   // eslint-disable-next-line class-methods-use-this
   keypress(p: p5) {
@@ -89,12 +80,12 @@ export default class App {
         LEVEL1.show(p, LEVEL1.level1);
         PLAYER1.show(p);
         PLAYER2.show(p);
-        ENEMY.show(p);
-        ENEMY.move(p, LEVEL1.level1);
-        // this.randomEnemy(p);
+        this.randomEnemy(p);
         this.enemies.forEach((enemy) => {
+          enemy.setMap(LEVEL1);
           enemy.show(p);
           enemy.move(p, LEVEL1.level1);
+          // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
         });
 
         // screen += 1;
@@ -127,7 +118,7 @@ export default class App {
 
   // eslint-disable-next-line class-methods-use-this
   randomEnemy(p:p5) {
-    if (p.frameCount % 100 === 0 && this.count < 15) {
+    if (p.frameCount % 200 === 0 && this.count < 15) {
       const i = Math.floor(p.random(19));
       const j = Math.floor(p.random(15));
       const num = Math.round(p.random(1));
