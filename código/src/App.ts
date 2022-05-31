@@ -40,74 +40,73 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  show(p: p5) {
-    LEVEL1.show(p);
-    PLAYER1.show(p);
-    PLAYER2.show(p);
-  }
+  // show(p: p5) {
+  //   LEVEL1.show(p, LEVEL1.level1);
+  //   PLAYER1.show(p);
+  //   PLAYER2.show(p);
+  // }
 
   // eslint-disable-next-line class-methods-use-this
   keypress(p: p5) {
     const K = p.key.toLocaleLowerCase();
 
     if (K === 'd') {
-      PLAYER2.move('RIGHT');
+      PLAYER2.move('RIGHT', LEVEL1.level1);
     }
 
     if (K === 'a') {
-      PLAYER2.move('LEFT');
+      PLAYER2.move('LEFT', LEVEL1.level1);
     }
 
     if (K === 'w') {
-      PLAYER2.move('UP');
+      PLAYER2.move('UP', LEVEL1.level1);
     }
 
     if (K === 's') {
-      PLAYER2.move('DOWN');
+      PLAYER2.move('DOWN', LEVEL1.level1);
     }
 
     if (p.keyCode === p.RIGHT_ARROW) {
-      PLAYER1.move('RIGHT');
+      PLAYER1.move('RIGHT', LEVEL1.level1);
     }
 
     if (p.keyCode === p.LEFT_ARROW) {
-      PLAYER1.move('LEFT');
+      PLAYER1.move('LEFT', LEVEL1.level1);
     }
 
     if (p.keyCode === p.UP_ARROW) {
-      PLAYER1.move('UP');
+      PLAYER1.move('UP', LEVEL1.level1);
     }
 
     if (p.keyCode === p.DOWN_ARROW) {
-      PLAYER1.move('DOWN');
+      PLAYER1.move('DOWN', LEVEL1.level1);
     }
   }
 
   changeScreen(p:p5) {
     switch (this.screen) {
       case 0:
-        LEVEL1.show(p);
+        LEVEL1.show(p, LEVEL1.level1);
         PLAYER1.show(p);
         PLAYER2.show(p);
         ENEMY.show(p);
-        ENEMY.move(p);
+        ENEMY.move(p, LEVEL1.level1);
         // this.randomEnemy(p);
         this.enemies.forEach((enemy) => {
           enemy.show(p);
-          enemy.move(p);
+          enemy.move(p, LEVEL1.level1);
         });
 
         // screen += 1;
         break;
       case 1:
-        LEVEL1.show(p);
-        PLAYER1.show(p);
+        LEVEL1.show(p, LEVEL1.level1); PLAYER1.show(p);
         PLAYER2.show(p);
         // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
         // screen += 1;
         break;
       case 2:
-        LEVEL1.show(p);
+        LEVEL1.show(p, LEVEL1.level1);
         PLAYER1.show(p);
         PLAYER2.show(p);
         // if (ENEMIES2.kill(PLAYER1.getFil(), PLAYER1.getCol())) {
@@ -133,7 +132,7 @@ export default class App {
       const j = Math.floor(p.random(15));
       const num = Math.round(p.random(1));
 
-      if (LEVEL1.canMove(i, j)) {
+      if (LEVEL1.canMove(i, j, LEVEL1.level1)) {
         // eslint-disable-next-line default-case
         switch (num) {
           case 0:

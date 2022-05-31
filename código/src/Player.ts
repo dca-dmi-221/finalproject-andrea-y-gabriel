@@ -39,25 +39,25 @@ export default class Player {
     }
   }
 
-  move(direction: PlayerDirection) {
+  move(direction: PlayerDirection, level: Array<Array<number>>) {
     switch (direction) {
       case 'DOWN':
-        if (this.refMap?.canMove(this.pcFil, this.pcCol + 1)) {
+        if (this.refMap?.canMove(this.pcFil, this.pcCol + 1, level)) {
           this.pcCol += 1;
         }
         break;
       case 'UP':
-        if (this.refMap?.canMove(this.pcFil, this.pcCol - 1)) {
+        if (this.refMap?.canMove(this.pcFil, this.pcCol - 1, level)) {
           this.pcCol -= 1;
         }
         break;
       case 'LEFT':
-        if (this.refMap?.canMove(this.pcFil - 1, this.pcCol)) {
+        if (this.refMap?.canMove(this.pcFil - 1, this.pcCol, level)) {
           this.pcFil -= 1;
         }
         break;
       case 'RIGHT':
-        if (this.refMap?.canMove(this.pcFil + 1, this.pcCol)) {
+        if (this.refMap?.canMove(this.pcFil + 1, this.pcCol, level)) {
           this.pcFil += 1;
         }
         break;

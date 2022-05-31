@@ -42,32 +42,32 @@ export default class Enemy {
     p.imageMode(p.CORNER);
   }
 
-  move(p:p5) {
+  move(p:p5, level: Array<Array<number>>) {
     let dir: number = 0;
     if (p.frameCount % 15 === 0) {
       dir = Math.round(p.random(3));
       // eslint-disable-next-line default-case
       switch (dir) {
         case 0:
-          if (this.refMap?.canMove(this.fil, this.col + 1)) {
+          if (this.refMap?.canMove(this.fil, this.col + 1, level)) {
             this.col += 1;
             console.log('0', this.col);
           }
           break;
         case 1:
-          if (this.refMap?.canMove(this.fil, this.col - 1)) {
+          if (this.refMap?.canMove(this.fil, this.col - 1, level)) {
             this.col -= 1;
             console.log('1', this.col);
           }
           break;
         case 2:
-          if (this.refMap?.canMove(this.fil - 1, this.col)) {
+          if (this.refMap?.canMove(this.fil - 1, this.col, level)) {
             this.fil -= 1;
             console.log('2', this.fil);
           }
           break;
         case 3:
-          if (this.refMap?.canMove(this.fil + 1, this.col)) {
+          if (this.refMap?.canMove(this.fil + 1, this.col, level)) {
             this.fil += 1;
             console.log('3', this.fil);
           }

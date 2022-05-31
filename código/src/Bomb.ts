@@ -1,63 +1,59 @@
-// import p5 from 'p5';
-// import Enemy from './Enemy';
-// import Map from './Map';
+import p5 from 'p5';
+import Enemy from './Enemy';
+import Map from './Map';
 
-// interface BombProps {
-//   x: number
-//   y: number
-// }
+const BOMBSIZE = 48;
 
-// class Bomb {
-//   x;
-//   y;
-//   tileX: number;
-//   tileY: number;
-//   tileSize: number;
-//   width: number;
-//   height: number;
-//   hasExplode: boolean;
-//   constructor({ x, y }:BombProps) {
-//     this.x = x;
-//     this.y = y;
-//     this.tileSize = 50;
-//     this.tileX = Math.floor(this.x / this.tileSize);
-//     this.tileY = Math.floor(this.y / this.tileSize);
-//     this.width = 25;
-//     this.height = 25;
-//     this.hasExplode = false;
-//   }
+export default class Bomb {
+  x;
+  y;
+  fil: number;
+  col: number;
+  hasExplode: boolean;
+  refMap: Map | null = null;
 
-//   render(mapReference: Map, p: p5) {
-//     p.fill(0, 255, 0);
-//     p.rectMode(p.CENTER);
-//     p.rect(this.x, this.y, this.width, this.height);
-//     p.rectMode(p.CORNER);
-//     this.destroyWall(mapReference);
-//   }
+  constructor(fil: number, col: number) {
+    this.fil = fil;
+    this.col = col;
+    this.hasExplode = false;
+    this.x = (fil * BOMBSIZE) + 288;
+    this.y = (col * BOMBSIZE);
+    this.refMap = null;
+  }
 
-//   destroyWall(mapReference: Map) {
-//     setTimeout(() => {
-//       if (mapReference.tileSet[this.tileY - 1][this.tileX] === 1) {
-//         mapReference.tileSet[this.tileY - 1][this.tileX] = 0;
-//       }
-//       if (mapReference.tileSet[this.tileY + 1][this.tileX] === 1) {
-//         mapReference.tileSet[this.tileY + 1][this.tileX] = 0;
-//       }
-//       if (mapReference.tileSet[this.tileY][this.tileX - 1] === 1) {
-//         mapReference.tileSet[this.tileY][this.tileX - 1] = 0;
-//       }
-//       if (mapReference.tileSet[this.tileY][this.tileX + 1] === 1) {
-//         mapReference.tileSet[this.tileY][this.tileX + 1] = 0;
-//       }
-//       return this.hasExplode = true;
-//     }, 2000);
-//   }
+  render(p: p5) {
+    p.fill(0, 255, 0);
+    p.rectMode(p.CENTER);
+    p.rect(this.x, this.y, BOMBSIZE, BOMBSIZE);
+    p.rectMode(p.CORNER);
+    this.destroyWall();
+  }
 
-//   killEnemy(enemy: Enemy, p: p5) {
-//     if (p.dist(this.tileX, this.tileY, enemy.x, enemy.y) < 75) {
-//       //
-//     }
-//   }
-// }
+  destroyWall() {
+    setTimeout(() => {
+      if (this.refMap?.level1[this.fil][this.col - 1] === 1) {
+        this.refMap?.level1[this.fil][this.col - 1] = 0;
+      }
+      if (this.refMap?.level1[this.fil][this.col + 1] === 1) {
+        this.refMap?.level1[this.fil][this.col + 1] = 0;
+      }
+      if (this.refMap?.level1[this.fil - 1][this.col] === 1) {
+        this.refMap?.level1[this.fil - 1][this.col] = 0;
+      }
+      if (this.refMap?.level1[this.fil + 1][this.col] === 1) {
+        this.refMap?.level1[this.fil + 1][this.col] = 0;
+      }
+      return this.hasExplode = true;
+    }, 2000);
+  }
 
-// export default Bomb;
+  killEnemy(enemy: Enemy, p: p5) {
+    if (p.dist(this.fil, this.col, enemy.fil, enemy.col) < BOMBSIZE / 2) {
+      //
+    }
+  }
+
+  setMap(m:Map) {
+    this.refMap = m;
+  }
+}
