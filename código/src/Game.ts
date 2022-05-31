@@ -29,10 +29,10 @@ const sketch = (p: p5) => {
     buffalo[2] = p.loadImage('../assests/player/Bufalo2C.png');
     buffalo[3] = p.loadImage('../assests/player/Bufalo2D.png');
 
-    zebra[0] = p.loadImage('../assests/player/Bufalo2A.png');
-    zebra[1] = p.loadImage('../assests/player/Bufalo2A.png');
-    zebra[2] = p.loadImage('../assests/player/Bufalo2A.png');
-    zebra[3] = p.loadImage('../assests/player/Bufalo2A.png');
+    zebra[0] = p.loadImage('../assests/player/cebra/a.png');
+    zebra[1] = p.loadImage('../assests/player/cebra/b.png');
+    zebra[2] = p.loadImage('../assests/player/cebra/c.png');
+    zebra[3] = p.loadImage('../assests/player/cebra/d.png');
   };
 
   p.setup = () => {
