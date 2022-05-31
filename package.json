@@ -1,0 +1,40 @@
+{
+  "name": "vite-test",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "test": "vitest",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.31",
+    "@types/p5": "^1.4.2",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.1",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "p5": "^1.4.1",
+    "vite": "^2.9.7",
+    "vitest": "^0.10.5"
+  },
+  "description": "```\r npm install\r ```",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dca-dmi-221/finalproject-andrea-y-gabriel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dca-dmi-221/finalproject-andrea-y-gabriel/issues"
+  },
+  "homepage": "https://github.com/dca-dmi-221/finalproject-andrea-y-gabriel#readme"
+}
