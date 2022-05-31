@@ -107,3 +107,4 @@ export default class Enemy {
     this.refMap = m;
   }
 }
+// test
