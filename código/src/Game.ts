@@ -6,8 +6,9 @@ import App from './App';
 let app!: App;
 
 let gui!: Image;
-// eslint-disable-next-line no-unused-vars
-// let background!: Image; // variable para modulo del fondo
+let sand!: Image;
+let rock!: Image;
+let shrub!: Image;
 
 const player1: Array<Image> = [];
 const player2: Array <Image> = [];
@@ -17,7 +18,9 @@ const zebra: Array <Image> = [];
 const sketch = (p: p5) => {
   p.preload = () => {
     gui = p.loadImage('../assests/GUI.png');
-    // background = p.loadImage('../assests/modulo.png'); // preload imagen del fondo, modulo
+    sand = p.loadImage('../assests/modulo.png');
+    rock = p.loadImage('../assests/obstacles/rocks.png');
+    shrub = p.loadImage('../assests/obstacles/arbusto.png');
     player1[0] = p.loadImage('../assests/player/player1A.png');
     player1[1] = p.loadImage('../assests/player/player1B.png');
     player1[2] = p.loadImage('../assests/player/player1C.png');
@@ -41,7 +44,7 @@ const sketch = (p: p5) => {
 
   p.setup = () => {
     p.createCanvas(1200, 720);
-    app = new App(player1, player2, buffalo, zebra);
+    app = new App(player1, player2, buffalo, zebra, sand, rock, shrub);
   };
 
   p.draw = () => {

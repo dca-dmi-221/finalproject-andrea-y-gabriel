@@ -14,6 +14,7 @@ export default class Enemy {
   image3!: Image;
   image4!: Image;
   direction: number;
+  die: boolean;
 
   constructor(fil: number, col: number, i1: Image, i2: Image, i3: Image, i4: Image) {
     this.fil = fil;
@@ -26,20 +27,23 @@ export default class Enemy {
     this.posY = (this.col * SIZE);
     this.refMap = null;
     this.direction = 0;
+    this.die = false;
   }
 
   show(p:p5) {
-    p.imageMode(p.CENTER);
-    if (this.direction === 0) {
-      p.image(this.image1, this.posX + 24, this.posY);
-    } else if (this.direction === 1) {
-      p.image(this.image2, this.posX + 24, this.posY);
-    } else if (this.direction === 2) {
-      p.image(this.image4, this.posX + 24, this.posY);
-    } else {
-      p.image(this.image3, this.posX + 24, this.posY);
+    if (this.die === false) {
+      p.imageMode(p.CENTER);
+      if (this.direction === 0) {
+        p.image(this.image1, this.posX + 24, this.posY);
+      } else if (this.direction === 1) {
+        p.image(this.image2, this.posX + 24, this.posY);
+      } else if (this.direction === 2) {
+        p.image(this.image4, this.posX + 24, this.posY);
+      } else {
+        p.image(this.image3, this.posX + 24, this.posY);
+      }
+      p.imageMode(p.CORNER);
     }
-    p.imageMode(p.CORNER);
   }
 
   move(p:p5, level: Array<Array<number>>) {

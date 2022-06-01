@@ -17,15 +17,18 @@ export default class App {
   zebra: Array <Image> = [];
   screen: number;
   count: number = 0;
-  // background: number;
+  // sand:Image;
 
-  constructor(p1: Array <Image>, p2: Array <Image>, b: Array <Image>, z:Array <Image>) {
+  // eslint-disable-next-line max-len
+  constructor(p1:Array<Image>, p2:Array<Image>, b:Array<Image>, z:Array<Image>, sand:Image, rock:Image, shrub:Image) {
     this.enemies = [];
     this.player1 = p1;
     this.player2 = p2;
     this.buffalo = b;
     this.zebra = z;
     this.screen = 0;
+    // this.sand = sand;
+    // this.rock
     // this.background = 0;
 
     PLAYER1.setImage1(this.player1[0]);
@@ -38,6 +41,9 @@ export default class App {
     PLAYER2.setImage4(this.player2[3]);
     PLAYER1.setMap(LEVEL1);
     PLAYER2.setMap(LEVEL1);
+    LEVEL1.setSand(sand);
+    LEVEL1.setRock(rock);
+    LEVEL1.setShrub(shrub);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -88,6 +94,8 @@ export default class App {
           enemy.setMap(LEVEL1);
           enemy.show(p);
           enemy.move(p, LEVEL1.level1);
+          PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
+          PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
           // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
         });
 
@@ -132,10 +140,12 @@ export default class App {
           case 0:
             // eslint-disable-next-line max-len
             this.enemies.push(new Buffalo(i, j, this.buffalo[0], this.buffalo[1], this.buffalo[2], this.buffalo[3]));
+            console.log('spawn buffalo');
             break;
           case 1:
             // eslint-disable-next-line max-len
-            this.enemies.push(new Zebra(i, j, this.buffalo[0], this.buffalo[1], this.buffalo[2], this.buffalo[3]));
+            this.enemies.push(new Zebra(i, j, this.zebra[0], this.zebra[1], this.zebra[2], this.zebra[3]));
+            console.log('spawn zebra');
             break;
         }
         this.count += 1;
