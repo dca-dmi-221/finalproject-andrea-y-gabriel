@@ -1,4 +1,4 @@
-import p5 from 'p5';
+import p5, { Image } from 'p5';
 import Enemy from './Enemy';
 import Map from './Map';
 
@@ -9,47 +9,46 @@ export default class Bomb {
   y;
   fil: number;
   col: number;
-  hasExplode: boolean;
+  boom: boolean;
   refMap: Map | null = null;
+  image!: Image;
 
   constructor(fil: number, col: number) {
     this.fil = fil;
     this.col = col;
-    this.hasExplode = false;
+    this.boom = false;
     this.x = (fil * BOMBSIZE) + 288;
     this.y = (col * BOMBSIZE);
     this.refMap = null;
   }
 
-  render(p: p5) {
+  show(p: p5) {
     p.fill(0, 255, 0);
-    p.rectMode(p.CENTER);
-    p.rect(this.x, this.y, BOMBSIZE, BOMBSIZE);
-    p.rectMode(p.CORNER);
-    this.destroyWall();
+    p.image(this.image, this.x, this.y);
+    // this.destroyWall();
   }
 
-  destroyWall() {
+  destroyWall(refMap: Map/* ,  level: Array<Array<number>> */) {
     setTimeout(() => {
-      if (this.refMap?.level1[this.fil][this.col - 1] === 1) {
-        this.refMap?.level1[this.fil][this.col - 1] = 0;
+      if (refMap.level1[this.fil][this.col - 1] === 1) {
+        refMap.level1[this.fil][this.col - 1] = 0;
       }
-      if (this.refMap?.level1[this.fil][this.col + 1] === 1) {
-        this.refMap?.level1[this.fil][this.col + 1] = 0;
+      if (refMap.level1[this.fil][this.col + 1] === 1) {
+        refMap.level1[this.fil][this.col + 1] = 0;
       }
-      if (this.refMap?.level1[this.fil - 1][this.col] === 1) {
-        this.refMap?.level1[this.fil - 1][this.col] = 0;
+      if (refMap.level1[this.fil - 1][this.col] === 1) {
+        refMap.level1[this.fil - 1][this.col] = 0;
       }
-      if (this.refMap?.level1[this.fil + 1][this.col] === 1) {
-        this.refMap?.level1[this.fil + 1][this.col] = 0;
+      if (refMap.level1[this.fil + 1][this.col] === 1) {
+        refMap.level1[this.fil + 1][this.col] = 0;
       }
-      return this.hasExplode = true;
+      return this.boom = true;
     }, 2000);
   }
 
-  killEnemy(enemy: Enemy, p: p5) {
+  kill(p:p5, enemy: Enemy, enemyArray: Array<Enemy>) {
     if (p.dist(this.fil, this.col, enemy.fil, enemy.col) < BOMBSIZE / 2) {
-      //
+      enemyArray.splice(enemyArray.indexOf(enemy), 1);
     }
   }
 

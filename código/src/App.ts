@@ -17,16 +17,32 @@ export default class App {
   zebra: Array <Image> = [];
   screen: number;
   count: number = 0;
-  // background: number;
+  gui: Image;
+  home: Image;
+  rules: Image;
 
-  constructor(p1: Array <Image>, p2: Array <Image>, b: Array <Image>, z:Array <Image>) {
+  // eslint-disable-next-line max-len
+  constructor(
+    p1:Array<Image>,
+    p2:Array<Image>,
+    b:Array<Image>,
+    z:Array<Image>,
+    sand:Image,
+    rock:Image,
+    shrub:Image,
+    gui:Image,
+    play:Image,
+    rules:Image,
+  ) {
     this.enemies = [];
     this.player1 = p1;
     this.player2 = p2;
     this.buffalo = b;
     this.zebra = z;
     this.screen = 0;
-    // this.background = 0;
+    this.gui = gui;
+    this.home = play;
+    this.rules = rules;
 
     PLAYER1.setImage1(this.player1[0]);
     PLAYER1.setImage2(this.player1[1]);
@@ -38,6 +54,9 @@ export default class App {
     PLAYER2.setImage4(this.player2[3]);
     PLAYER1.setMap(LEVEL1);
     PLAYER2.setMap(LEVEL1);
+    LEVEL1.setSand(sand);
+    LEVEL1.setRock(rock);
+    LEVEL1.setShrub(shrub);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -77,9 +96,28 @@ export default class App {
     }
   }
 
+  mousePressed(p:p5) {
+    if (this.screen === 0) {
+      this.button(p, 512, 440, 162, 52, 2);
+      this.button(p, 505, 518, 195, 52, 1);
+    }
+
+    if (this.screen === 1) {
+      this.button(p, 945, 620, 162, 52, 2);
+    }
+  }
+
   changeScreen(p:p5) {
     switch (this.screen) {
       case 0:
+        p.image(this.home, 0, 0);
+        break;
+
+      case 1:
+        p.image(this.rules, 0, 0);
+        break;
+
+      case 2:
         LEVEL1.show(p, LEVEL1.level1);
         PLAYER1.show(p);
         PLAYER2.show(p);
@@ -88,18 +126,20 @@ export default class App {
           enemy.setMap(LEVEL1);
           enemy.show(p);
           enemy.move(p, LEVEL1.level1);
+          PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
+          PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
           // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
         });
-
+        p.image(this.gui, 0, 0);
         // screen += 1;
         break;
-      case 1:
+      case 3:
         LEVEL1.show(p, LEVEL1.level1); PLAYER1.show(p);
         PLAYER2.show(p);
         // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
         // screen += 1;
         break;
-      case 2:
+      case 4:
         LEVEL1.show(p, LEVEL1.level1);
         PLAYER1.show(p);
         PLAYER2.show(p);
@@ -119,6 +159,14 @@ export default class App {
     }
   }
 
+  button(p:p5, xButton:number, yButton:number, wButton:number, hButton:number, screen:number) {
+    const widthB = xButton + wButton;
+    const heightB = yButton + hButton;
+    if (xButton < p.mouseX && p.mouseX < widthB && yButton < p.mouseY && p.mouseY < heightB) {
+      this.screen = screen;
+    }
+  }
+
   // eslint-disable-next-line class-methods-use-this
   randomEnemy(p:p5) {
     if (p.frameCount % 200 === 0 && this.count < 15) {
@@ -132,10 +180,12 @@ export default class App {
           case 0:
             // eslint-disable-next-line max-len
             this.enemies.push(new Buffalo(i, j, this.buffalo[0], this.buffalo[1], this.buffalo[2], this.buffalo[3]));
+            console.log('spawn buffalo');
             break;
           case 1:
             // eslint-disable-next-line max-len
-            this.enemies.push(new Zebra(i, j, this.buffalo[0], this.buffalo[1], this.buffalo[2], this.buffalo[3]));
+            this.enemies.push(new Zebra(i, j, this.zebra[0], this.zebra[1], this.zebra[2], this.zebra[3]));
+            console.log('spawn zebra');
             break;
         }
         this.count += 1;

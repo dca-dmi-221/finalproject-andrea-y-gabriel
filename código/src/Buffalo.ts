@@ -11,10 +11,9 @@ export default class Buffalo extends Enemy {
   }
 
   dead(): boolean {
-    let result: boolean = false;
     if (this.lives === 0) {
-      result = true;
+      this.die = true;
     }
-    return result;
+    return this.die;
   }
 }

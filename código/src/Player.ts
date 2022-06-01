@@ -16,6 +16,7 @@ export default class Player {
   image4!: Image;
   direction: string;
   refMap: Map | null = null;
+  lives: number;
 
   constructor(fil: number, col: number) {
     this.pcFil = fil;
@@ -24,18 +25,20 @@ export default class Player {
     this.posX = (fil * PLAYERSIZE) + 288;
     this.posY = (col * PLAYERSIZE);
     this.refMap = null;
+    this.lives = 3;
   }
 
   show(p: p5) {
-    // p.image(this.imageActual, this.posX - 9.5, this.posY - 48);
-    if (this.direction === 'DOWN') {
-      p.image(this.image1, this.posX - 9.5, this.posY - 48);
-    } else if (this.direction === 'UP') {
-      p.image(this.image2, this.posX - 9.5, this.posY - 48);
-    } else if (this.direction === 'RIGHT') {
-      p.image(this.image3, this.posX - 9.5, this.posY - 48);
-    } else {
-      p.image(this.image4, this.posX - 9.5, this.posY - 48);
+    if (this.lives > 0) {
+      if (this.direction === 'DOWN') {
+        p.image(this.image1, this.posX - 9.5, this.posY - 48);
+      } else if (this.direction === 'UP') {
+        p.image(this.image2, this.posX - 9.5, this.posY - 48);
+      } else if (this.direction === 'RIGHT') {
+        p.image(this.image3, this.posX - 9.5, this.posY - 48);
+      } else {
+        p.image(this.image4, this.posX - 9.5, this.posY - 48);
+      }
     }
   }
 
@@ -73,6 +76,14 @@ export default class Player {
     this.posY = (this.pcCol * PLAYERSIZE);
   }
 
+  dead(filEne: number, colEne: number, fil: number, col: number) {
+    if (this.pcFil === filEne && this.pcCol === colEne) {
+      this.lives -= 1;
+      this.pcCol = col;
+      this.pcFil = fil;
+    }
+  }
+
   getX() {
     return this.posX;
   }
@@ -87,6 +98,18 @@ export default class Player {
 
   getCol() {
     return this.pcCol;
+  }
+
+  getLives() {
+    return this.lives;
+  }
+
+  setFil(fil: number) {
+    this.pcFil = fil;
+  }
+
+  setCol(col: number) {
+    this.pcCol = col;
   }
 
   setMap(m:Map) {
