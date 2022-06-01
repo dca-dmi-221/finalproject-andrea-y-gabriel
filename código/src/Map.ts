@@ -15,7 +15,7 @@ export default class Map {
     this.r = 255;
     this.g = 255;
     this.b = 255;
-  }
+  }// hola
 
   level1: Array<Array<number>> = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
