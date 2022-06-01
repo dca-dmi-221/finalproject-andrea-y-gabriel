@@ -39,7 +39,7 @@ export default class App {
     this.player2 = p2;
     this.buffalo = b;
     this.zebra = z;
-    this.screen = 0;
+    this.screen = 2;
     this.gui = gui;
     this.home = play;
     this.rules = rules;
@@ -131,6 +131,11 @@ export default class App {
           // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
         });
         p.image(this.gui, 0, 0);
+        p.fill(54, 18, 81);
+        p.textSize(40);
+        p.text(PLAYER1.getLives(), 45, 293);
+        p.fill(0, 83, 38);
+        p.text(PLAYER1.getLives(), 45, 563);
         // screen += 1;
         break;
       case 3:
@@ -180,12 +185,10 @@ export default class App {
           case 0:
             // eslint-disable-next-line max-len
             this.enemies.push(new Buffalo(i, j, this.buffalo[0], this.buffalo[1], this.buffalo[2], this.buffalo[3]));
-            console.log('spawn buffalo');
             break;
           case 1:
             // eslint-disable-next-line max-len
             this.enemies.push(new Zebra(i, j, this.zebra[0], this.zebra[1], this.zebra[2], this.zebra[3]));
-            console.log('spawn zebra');
             break;
         }
         this.count += 1;
