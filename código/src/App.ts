@@ -17,6 +17,7 @@ export default class App {
   zebra: Array <Image> = [];
   screen: number;
   count: number = 0;
+  // background: number;
 
   constructor(p1: Array <Image>, p2: Array <Image>, b: Array <Image>, z:Array <Image>) {
     this.enemies = [];
@@ -25,6 +26,8 @@ export default class App {
     this.buffalo = b;
     this.zebra = z;
     this.screen = 0;
+    // this.background = 0;
+
     PLAYER1.setImage1(this.player1[0]);
     PLAYER1.setImage2(this.player1[1]);
     PLAYER1.setImage3(this.player1[2]);

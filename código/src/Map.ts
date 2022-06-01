@@ -36,7 +36,7 @@ export default class Map {
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
         if (level[i][j] === 1) {
-          p.fill(10);
+          p.fill(10);// poner imagen
           p.rect((j * SIZE) + 288, (i * SIZE), SIZE, SIZE);
         } else {
           p.fill(this.r, this.g, this.b);
