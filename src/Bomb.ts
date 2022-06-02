@@ -86,6 +86,5 @@ export default class Bomb {
 
   setImage(i:Image) {
     this.image = i;
-    return this.image;
   }
 }

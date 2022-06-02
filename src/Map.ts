@@ -30,8 +30,8 @@ export default class Map {
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
     [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 3, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 3, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 6, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 6, 0, 0, 1],
     [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
     [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -82,7 +82,7 @@ export default class Map {
         } else if (level[i][j] === 2) {
           p.image(this.sand, (j * SIZE) + 288, (i * SIZE));
           p.image(this.shrub, (j * SIZE) + 288, (i * SIZE));
-        } else if (level[i][j] === 3) {
+        } else if (level[i][j] === 3 || level[i][j] === 6) {
           p.image(this.sand, (j * SIZE) + 288, (i * SIZE));
           p.image(this.race, (j * SIZE) + 288, (i * SIZE));
         } else if (level[i][j] === 4) {
@@ -124,7 +124,7 @@ export default class Map {
     }
   }
 
-  countPurpleSpace() {
+  countPurpleSpace() { // nueva funcion
     let spaces: number = 0;
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
@@ -146,7 +146,7 @@ export default class Map {
     }
   }
 
-  countGreenSpace() {
+  countGreenSpace() { // nueva funcion
     let spaces: number = 0;
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
@@ -160,12 +160,10 @@ export default class Map {
 
   setSand(i:Image) {
     this.sand = i;
-    return this.sand;
   }
 
   setRock(i:Image) {
     this.rock = i;
-    return this.rock;
   }
 
   setShrub(i:Image) {

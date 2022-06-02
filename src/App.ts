@@ -47,7 +47,7 @@ export default class App {
   player2: Array <Image> = [];
   buffalo: Array <Image> = [];
   zebra: Array <Image> = [];
-  screen: number = 3;
+  screen: number = 0;
   count: number = 0;
   gui: Image;
   home: Image;
@@ -60,6 +60,10 @@ export default class App {
   greenSand: Image;
   spacePurple!: number;
   spaceGreen!: number;
+  activeRace: boolean = false;
+  player1Race: number = 0;
+  player2Race: number = 0;
+  countKillEnemies: number = 0;
 
   constructor(
     {
@@ -181,6 +185,9 @@ export default class App {
     this.putBomb2(p);
     this.activeShield1(p);
     this.activeShield2(p);
+    if (this.screen === 3) {
+      this.level1();
+    }
   }
 
   button(p:p5, xButton:number, yButton:number, wButton:number, hButton:number, screen:number) {
@@ -200,7 +207,7 @@ export default class App {
 
   buttonScreen1(p:p5) {
     if (this.screen === 1) {
-      this.button(p, 945, 620, 162, 52, 2);
+      this.button(p, 800, 620, 162, 52, 2);
     }
   }
 
@@ -268,6 +275,7 @@ export default class App {
   enemyDissapear(enemy: Enemy) {
     if (enemy.getDie() === true) {
       this.enemies.splice(this.enemies.indexOf(enemy), 1);
+      this.countKillEnemies += 1;
     }
   }
 
@@ -277,28 +285,96 @@ export default class App {
     });
   }
 
+  activeZonesPj1() {
+    if (MAP.level1[PLAYER1.getCol()][PLAYER1.getFil()] === 3 && this.activeRace === false) {
+      this.player1Race += 1;
+      this.activeRace = true;
+    }
+    if (MAP.level1[PLAYER1.getCol()][PLAYER1.getFil()] === 6 && this.activeRace === true) {
+      this.player1Race += 1;
+      this.activeRace = false;
+    }
+  }
+
+  activeZonesPj2() {
+    if (MAP.level1[PLAYER2.getCol()][PLAYER2.getFil()] === 3 && this.activeRace === false) {
+      this.player2Race += 1;
+      this.activeRace = true;
+    }
+    if (MAP.level1[PLAYER2.getCol()][PLAYER2.getFil()] === 6 && this.activeRace === true) {
+      this.player2Race += 1;
+      this.activeRace = false;
+    }
+  }
+
+  level1() {
+    this.activeZonesPj1();
+    this.activeZonesPj2();
+  }
+
   showGui(p:p5) {
     p.image(this.gui, 0, 0);
     p.fill(54, 18, 81);
     p.textSize(40);
     p.text(PLAYER1.getLives(), 45, 293);
-    p.textSize(25);
-    p.text(`
-    ${this.spacePurple}/50`, 170, 257);
 
     p.fill(0, 83, 38);
     p.textSize(40);
     p.text(PLAYER1.getPoints(), 45, 663);
     p.text(PLAYER2.getPoints(), 150, 663);
     p.text(PLAYER2.getLives(), 45, 563);
+  }
+
+  textRace(p:p5) {
+    p.fill(54, 18, 81);
+    p.textSize(25);
+    p.text(`
+    ${this.player1Race}/7`, 170, 257);
+
+    p.fill(0, 83, 38);
+    p.textSize(25);
+    p.text(`
+    ${this.player2Race}/7`, 170, 527);
+  }
+
+  textSpaces(p:p5) {
+    p.fill(54, 18, 81);
+    p.textSize(25);
+    p.text(`
+    ${this.spacePurple}/50`, 170, 257);
+
+    p.fill(0, 83, 38);
     p.textSize(25);
     p.text(`
     ${this.spaceGreen}/50`, 170, 527);
   }
 
+  textEnemies(p:p5) {
+    p.fill(54, 18, 81);
+    p.textSize(25);
+    p.text(`
+    ${this.countKillEnemies}/15`, 170, 257);
+
+    p.fill(0, 83, 38);
+    p.textSize(25);
+    p.text(`
+    ${this.countKillEnemies}/15`, 170, 527);
+  }
+
   resetSpaces() {
     this.spaceGreen = 0;
     this.spacePurple = 0;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  textScore(p:p5) {
+    p.fill(54, 18, 81);
+    p.textSize(35);
+    p.text(PLAYER1.getPoints(), 370, 333);
+
+    p.fill(0, 83, 38);
+    p.textSize(35);
+    p.text(PLAYER2.getPoints(), 720, 333);
   }
 
   changeScreen(p:p5) {
@@ -317,16 +393,15 @@ export default class App {
 
       case 3:
         MAP.show(p, MAP.level1);
-        this.spacePurple = MAP.countPurpleSpace();
-        this.spaceGreen = MAP.countGreenSpace();
         this.showPlayers(p);
         this.setLevelPlayers(MAP.level1);
         this.showBombs(p);
         this.killenemies();
         this.showGui(p);
-        if (this.spacePurple === 50 || this.spaceGreen === 50) {
-          PLAYER1.plusPoints((this.spacePurple * 20));
-          PLAYER2.plusPoints((this.spaceGreen * 20));
+        this.textRace(p);
+        if (this.player1Race === 7 || this.player2Race === 7) {
+          PLAYER1.plusPoints((this.player1Race * 35));
+          PLAYER2.plusPoints((this.player2Race * 35));
           this.screen += 1;
           this.setPositionPlayers();
           this.truePositionPlayers();
@@ -336,16 +411,19 @@ export default class App {
       case 4:
         MAP.show(p, MAP.level2);
         this.resetSpaces();
+        this.spacePurple = MAP.countPurpleSpace();
+        this.spaceGreen = MAP.countGreenSpace();
         this.showPlayers(p);
         this.setLevelPlayers(MAP.level2);
         this.showBombs(p);
         this.killenemies();
         this.showGui(p);
+        this.textSpaces(p);
         MAP.changeColorPurple(PLAYER1.getFil(), PLAYER1.getCol());
         MAP.changeColorGreen(PLAYER2.getFil(), PLAYER2.getCol());
         if (this.spacePurple === 50 || this.spaceGreen === 50) {
-          PLAYER1.plusPoints((this.spacePurple * 20));
-          PLAYER2.plusPoints((this.spaceGreen * 20));
+          PLAYER1.plusPoints((this.spacePurple * 30));
+          PLAYER2.plusPoints((this.spaceGreen * 30));
           this.screen += 1;
           this.setPositionPlayers();
           this.truePositionPlayers();
@@ -361,9 +439,7 @@ export default class App {
         this.randomEnemy(p);
         this.showEnemies(p);
         this.showGui(p);
-
-        // PLAYER1.setLives(3);
-        // PLAYER2.setLives(3);
+        this.textEnemies(p);
         if (this.enemies.length === 0 && this.count === 15) {
           this.screen += 1;
         }
@@ -371,6 +447,7 @@ export default class App {
 
       case 6:
         p.image(this.score, 0, 0);
+        this.textScore(p);
         break;
 
       default:
