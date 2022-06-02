@@ -11,9 +11,7 @@ const enemy = new Enemy();
 
 describe('../src/Enemy', () => {
   test('dead()', () => {
-    const expected = true;
-    const result = enemy.dead();
-    expect(result).toStrictEqual(expected);
+    expect(enemy.die).toStrictEqual(false);
   });
 });
 
@@ -63,4 +61,4 @@ describe('../src/lessLives', () => {
     const result = enemy.lessLives();
     expect(result).toStrictEqual(expected);
   });
-}); // failed, replantear
+}); // ok

@@ -91,6 +91,7 @@ export default class Enemy {
   truePosition() {
     this.posX = (this.fil * SIZE) + 288;
     this.posY = (this.col * SIZE);
+    return this.posX;
   }
 
   dead(): boolean {
@@ -101,7 +102,8 @@ export default class Enemy {
   }
 
   lessLives() {
-    this.lives -= 1;// almost tested
+    this.lives -= 1;
+    return this.lives;// almost tested
   }
 
   getFil() {
