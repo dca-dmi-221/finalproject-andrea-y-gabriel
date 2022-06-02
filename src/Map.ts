@@ -160,10 +160,12 @@ export default class Map {
 
   setSand(i:Image) {
     this.sand = i;
+    return this.sand;
   }
 
   setRock(i:Image) {
     this.rock = i;
+    return this.rock;
   }
 
   setShrub(i:Image) {

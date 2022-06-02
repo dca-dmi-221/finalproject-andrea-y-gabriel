@@ -1,10 +1,53 @@
 import {
-  expect, test,
+  expect, test, describe,
 } from 'vitest';
-// Edit an assertion and save to see HMR in action
-// eslint-disable-next-line no-unused-vars
+
 import Map from '../src/Map';
 
-test('sample 2', () => {
-  expect(false).toBe(false);
+const map = new Map();
+
+/* eslint-disable no-undef */
+describe('../src/Map sand', () => {
+  test('truePosition()', () => {
+    const expected = undefined;
+    const result = map.setSand();
+    expect(result).toStrictEqual(expected);
+  });
+});
+
+describe('../src/Map rock', () => {
+  test('truePosition()', () => {
+    const expected = undefined;
+    const result = map.setRock();
+    expect(result).toStrictEqual(expected);
+  });
+});
+
+describe('../src/Map shrub', () => {
+  test('truePosition()', () => {
+    const expected = undefined;
+    const result = map.setShrub();
+    expect(result).toStrictEqual(expected);
+  });
+});
+describe('../src/Map race', () => {
+  test('truePosition()', () => {
+    const expected = undefined;
+    const result = map.setRace();
+    expect(result).toStrictEqual(expected);
+  });
+});
+describe('../src/Map PURPLE', () => {
+  test('truePosition()', () => {
+    const expected = undefined;
+    const result = map.setPurple();
+    expect(result).toStrictEqual(expected);
+  });
+});
+describe('../src/Map green', () => {
+  test('truePosition()', () => {
+    const expected = undefined;
+    const result = map.setGreen();
+    expect(result).toStrictEqual(expected);
+  });
 });

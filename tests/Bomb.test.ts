@@ -1,10 +1,17 @@
 import {
-  expect, test,
+  expect, test,describe
 } from 'vitest';
 // Edit an assertion and save to see HMR in action
 // eslint-disable-next-line no-unused-vars
 import Bomb from '../src/Bomb';
 
-test('sample 2', () => {
-  expect(false).toBe(false);
+// eslint-disable-next-line no-unused-vars
+const bomb = new Bomb(10, 10);
+
+describe('../src/Map sand', () => {
+  test('truePosition()', () => {
+    const expected = undefined;
+    const result = bomb.setImage();
+    expect(result).toStrictEqual(expected);
+  });
 });
