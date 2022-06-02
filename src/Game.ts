@@ -18,6 +18,10 @@ let score!: Image;
 let story!: Image;
 let purpleSand!: Image;
 let greenSand!: Image;
+let lvl1!: Image;
+let level2!: Image;
+let level3!: Image;
+
 
 const player1: Array<Image> = [];
 const player2: Array <Image> = [];

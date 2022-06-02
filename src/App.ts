@@ -24,6 +24,9 @@ export interface IpropsApp {
   story: Image
   purpleSand: Image;
   greenSand: Image;
+  lvl1: Image;
+  lvl2: Image;
+  lvl3: Image;
 }
 
 const MAP = new Map();
@@ -64,11 +67,14 @@ export default class App {
   player1Race: number = 0;
   player2Race: number = 0;
   countKillEnemies: number = 0;
+  lvl1: Image;
+  lvl2: Image;
+  lvl3: Image;
 
   constructor(
     {
       player1, player2, buffalo, zebra, bombImage, sand, rock, shrub, race, gui, home, rules,
-      shield, score, story, purpleSand, greenSand,
+      shield, score, story, purpleSand, greenSand, lvl1, lvl2, lvl3,
     } : IpropsApp,
   ) {
     this.enemies = [];
@@ -85,6 +91,9 @@ export default class App {
     this.story = story;
     this.purpleSand = purpleSand;
     this.greenSand = greenSand;
+    this.lvl1 = lvl1;
+    this.lvl2 = lvl2;
+    this.lvl3 = lvl3;
 
     PLAYERS.push(PLAYER2);
     PLAYERS.push(PLAYER1);
