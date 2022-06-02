@@ -1,4 +1,6 @@
 import p5, { Image } from 'p5';
+import Bomb from './Bomb';
+import Enemy from './Enemy';
 import Map from './Map';
 import { PlayerDirection } from './Type';
 
@@ -9,23 +11,20 @@ export default class Player {
   posY: number;
   pcFil: number;
   pcCol: number;
-  imageActual!: Image;
   image1!: Image;
   image2!: Image;
   image3!: Image;
   image4!: Image;
-  direction: string;
-  refMap: Map | null = null;
-  lives: number;
+  direction: string = 'DOWN';
+  refMap!: Map;
+  lives: number = 3;
+  bombs: Array<Bomb> = [];
 
   constructor(fil: number, col: number) {
     this.pcFil = fil;
     this.pcCol = col;
-    this.direction = 'DOWN';
     this.posX = (fil * PLAYERSIZE) + 288;
     this.posY = (col * PLAYERSIZE);
-    this.refMap = null;
-    this.lives = 3;
   }
 
   show(p: p5) {
@@ -45,22 +44,22 @@ export default class Player {
   move(direction: PlayerDirection, level: Array<Array<number>>) {
     switch (direction) {
       case 'DOWN':
-        if (this.refMap?.canMove(this.pcFil, this.pcCol + 1, level)) {
+        if (this.refMap.canMove(this.pcFil, this.pcCol + 1, level)) {
           this.pcCol += 1;
         }
         break;
       case 'UP':
-        if (this.refMap?.canMove(this.pcFil, this.pcCol - 1, level)) {
+        if (this.refMap.canMove(this.pcFil, this.pcCol - 1, level)) {
           this.pcCol -= 1;
         }
         break;
       case 'LEFT':
-        if (this.refMap?.canMove(this.pcFil - 1, this.pcCol, level)) {
+        if (this.refMap.canMove(this.pcFil - 1, this.pcCol, level)) {
           this.pcFil -= 1;
         }
         break;
       case 'RIGHT':
-        if (this.refMap?.canMove(this.pcFil + 1, this.pcCol, level)) {
+        if (this.refMap.canMove(this.pcFil + 1, this.pcCol, level)) {
           this.pcFil += 1;
         }
         break;
@@ -76,8 +75,28 @@ export default class Player {
     this.posY = (this.pcCol * PLAYERSIZE);
   }
 
+  putBomb() {
+    this.bombs.push(new Bomb(this.pcFil, this.pcCol));
+  }
+
+  showBomb(p:p5, image:Image) {
+    this.bombs.forEach((bomb) => {
+      bomb.setImage(image);
+      bomb.show(p);
+      if (bomb.boom === true) {
+        this.bombs.splice(this.bombs.indexOf(bomb), 1);
+      }
+    });
+  }
+
+  killEnemy(refMap: Map, enemies: Array<Enemy>) {
+    this.bombs.forEach((bomb) => {
+      bomb.bombBoom(refMap, enemies);
+    });
+  }
+
   dead(filEne: number, colEne: number, fil: number, col: number) {
-    if (this.pcFil === filEne && this.pcCol === colEne) {
+    if (this.pcFil === filEne && this.pcCol === colEne && this.lives > 0) {
       this.lives -= 1;
       this.pcCol = col;
       this.pcFil = fil;
@@ -114,10 +133,6 @@ export default class Player {
 
   setMap(m:Map) {
     this.refMap = m;
-  }
-
-  setImage(i:Image) {
-    this.imageActual = i;
   }
 
   setImage1(i:Image) {

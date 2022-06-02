@@ -15,6 +15,7 @@ export default class Enemy {
   image4!: Image;
   direction: number;
   die: boolean;
+  lives!: number;
 
   constructor(fil: number, col: number, i1: Image, i2: Image, i3: Image, i4: Image) {
     this.fil = fil;
@@ -83,12 +84,31 @@ export default class Enemy {
     this.posY = (this.col * SIZE);
   }
 
+  dead(): boolean {
+    if (this.lives === 0) {
+      this.die = true;
+    }
+    return this.die;
+  }
+
+  lessLives() {
+    this.lives -= 1;
+  }
+
   getFil() {
     return this.fil;
   }
 
   getCol() {
     return this.col;
+  }
+
+  getLives() {
+    return this.lives;
+  }
+
+  getDie() {
+    return this.die;
   }
 
   setImage1(i:Image) {

@@ -7,7 +7,7 @@ import Zebra from './Zebra';
 
 const LEVEL1 = new Map();
 const PLAYER1 = new Player(1, 1);
-const PLAYER2 = new Player(3, 1);
+const PLAYER2 = new Player(2, 1);
 
 export default class App {
   enemies: Array <Enemy>;
@@ -15,11 +15,12 @@ export default class App {
   player2: Array <Image> = [];
   buffalo: Array <Image> = [];
   zebra: Array <Image> = [];
-  screen: number;
+  screen: number = 2;
   count: number = 0;
   gui: Image;
   home: Image;
   rules: Image;
+  bomb: Image;
 
   // eslint-disable-next-line max-len
   constructor(
@@ -27,9 +28,11 @@ export default class App {
     p2:Array<Image>,
     b:Array<Image>,
     z:Array<Image>,
+    bombImage:Image,
     sand:Image,
     rock:Image,
     shrub:Image,
+    race:Image,
     gui:Image,
     play:Image,
     rules:Image,
@@ -39,10 +42,10 @@ export default class App {
     this.player2 = p2;
     this.buffalo = b;
     this.zebra = z;
-    this.screen = 2;
     this.gui = gui;
     this.home = play;
     this.rules = rules;
+    this.bomb = bombImage;
 
     PLAYER1.setImage1(this.player1[0]);
     PLAYER1.setImage2(this.player1[1]);
@@ -57,10 +60,30 @@ export default class App {
     LEVEL1.setSand(sand);
     LEVEL1.setRock(rock);
     LEVEL1.setShrub(shrub);
+    LEVEL1.setRace(race);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  keypress(p: p5) {
+  movePlayer1(p:p5) {
+    if (p.keyCode === p.RIGHT_ARROW) {
+      PLAYER1.move('RIGHT', LEVEL1.level1);
+    }
+
+    if (p.keyCode === p.LEFT_ARROW) {
+      PLAYER1.move('LEFT', LEVEL1.level1);
+    }
+
+    if (p.keyCode === p.UP_ARROW) {
+      PLAYER1.move('UP', LEVEL1.level1);
+    }
+
+    if (p.keyCode === p.DOWN_ARROW) {
+      PLAYER1.move('DOWN', LEVEL1.level1);
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  movePlayer2(p:p5) {
     const K = p.key.toLocaleLowerCase();
 
     if (K === 'd') {
@@ -78,22 +101,20 @@ export default class App {
     if (K === 's') {
       PLAYER2.move('DOWN', LEVEL1.level1);
     }
+  }
 
-    if (p.keyCode === p.RIGHT_ARROW) {
-      PLAYER1.move('RIGHT', LEVEL1.level1);
+  // eslint-disable-next-line class-methods-use-this
+  putBomb1(p:p5) {
+    const K = p.key.toLocaleLowerCase();
+    if (K === 'p') {
+      PLAYER1.putBomb();
     }
+  }
 
-    if (p.keyCode === p.LEFT_ARROW) {
-      PLAYER1.move('LEFT', LEVEL1.level1);
-    }
-
-    if (p.keyCode === p.UP_ARROW) {
-      PLAYER1.move('UP', LEVEL1.level1);
-    }
-
-    if (p.keyCode === p.DOWN_ARROW) {
-      PLAYER1.move('DOWN', LEVEL1.level1);
-    }
+  keypress(p: p5) {
+    this.movePlayer1(p);
+    this.movePlayer2(p);
+    this.putBomb1(p);
   }
 
   mousePressed(p:p5) {
@@ -119,16 +140,23 @@ export default class App {
 
       case 2:
         LEVEL1.show(p, LEVEL1.level1);
-        PLAYER1.show(p);
         PLAYER2.show(p);
+        PLAYER1.show(p);
+        PLAYER1.showBomb(p, this.bomb);
+        PLAYER1.killEnemy(LEVEL1, this.enemies);
+
         this.randomEnemy(p);
         this.enemies.forEach((enemy) => {
           enemy.setMap(LEVEL1);
           enemy.show(p);
-          enemy.move(p, LEVEL1.level1);
+          enemy.dead();
+          // enemy.move(p, LEVEL1.level1);
           PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
           PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
-          // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
+          console.log(enemy.getLives());
+          if (enemy.getDie() === true) {
+            this.enemies.splice(this.enemies.indexOf(enemy), 1);
+          }
         });
         p.image(this.gui, 0, 0);
         p.fill(54, 18, 81);

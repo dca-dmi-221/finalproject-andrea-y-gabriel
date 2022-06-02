@@ -5,54 +5,64 @@ import Map from './Map';
 const BOMBSIZE = 48;
 
 export default class Bomb {
-  x;
-  y;
+  posX: number;
+  posY: number;
   fil: number;
   col: number;
-  boom: boolean;
-  refMap: Map | null = null;
+  boom: boolean = false;
   image!: Image;
+  putBomb: boolean = false;
 
-  constructor(fil: number, col: number) {
-    this.fil = fil;
-    this.col = col;
-    this.boom = false;
-    this.x = (fil * BOMBSIZE) + 288;
-    this.y = (col * BOMBSIZE);
-    this.refMap = null;
+  constructor(pjFil:number, pjCol:number) {
+    this.fil = pjFil;
+    this.col = pjCol;
+    this.posX = (this.fil * BOMBSIZE) + 288;
+    this.posY = (this.col * BOMBSIZE);
   }
 
   show(p: p5) {
-    p.fill(0, 255, 0);
-    p.image(this.image, this.x, this.y);
-    // this.destroyWall();
+    p.image(this.image, this.posX, this.posY);
   }
 
-  destroyWall(refMap: Map/* ,  level: Array<Array<number>> */) {
+  destroyShrub(refMap: Map) {
+    if (refMap.level1[this.col][this.fil + 1] === 2) {
+      // eslint-disable-next-line no-param-reassign
+      refMap.level1[this.col][this.fil + 1] = 0;
+    }
+    if (refMap.level1[this.col][this.fil - 1] === 2) {
+      // eslint-disable-next-line no-param-reassign
+      refMap.level1[this.col][this.fil - 1] = 0;
+    }
+    if (refMap.level1[this.col - 1][this.fil] === 2) {
+      // eslint-disable-next-line no-param-reassign
+      refMap.level1[this.col - 1][this.fil] = 0;
+    }
+    if (refMap.level1[this.col + 1][this.fil] === 2) {
+      // eslint-disable-next-line no-param-reassign
+      refMap.level1[this.col + 1][this.fil] = 0;
+    }
+    // eslint-disable-next-line no-return-assign
+    return this.boom = true;
+  }
+
+  bombBoom(refMap: Map, enemies: Array<Enemy>) {
     setTimeout(() => {
-      if (refMap.level1[this.fil][this.col - 1] === 1) {
-        refMap.level1[this.fil][this.col - 1] = 0;
-      }
-      if (refMap.level1[this.fil][this.col + 1] === 1) {
-        refMap.level1[this.fil][this.col + 1] = 0;
-      }
-      if (refMap.level1[this.fil - 1][this.col] === 1) {
-        refMap.level1[this.fil - 1][this.col] = 0;
-      }
-      if (refMap.level1[this.fil + 1][this.col] === 1) {
-        refMap.level1[this.fil + 1][this.col] = 0;
-      }
-      return this.boom = true;
+      this.destroyShrub(refMap);
+      this.killEnemy(enemies);
     }, 2000);
   }
 
-  kill(p:p5, enemy: Enemy, enemyArray: Array<Enemy>) {
-    if (p.dist(this.fil, this.col, enemy.fil, enemy.col) < BOMBSIZE / 2) {
-      enemyArray.splice(enemyArray.indexOf(enemy), 1);
+  killEnemy(enemies: Array<Enemy>): void {
+    for (let i = 0; i < enemies.length; i += 1) {
+      const enemy = enemies[i];
+      // eslint-disable-next-line max-len
+      if (enemy.fil === this.fil + 1 || enemy.fil === this.fil - 1 || enemy.col === this.col + 1 || enemy.col === this.col - 1) {
+        enemy.lessLives();
+      }
     }
   }
 
-  setMap(m:Map) {
-    this.refMap = m;
+  setImage(i:Image) {
+    this.image = i;
   }
 }

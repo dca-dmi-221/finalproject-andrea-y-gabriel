@@ -10,6 +10,7 @@ export default class Map {
   sand!: Image;
   rock!: Image;
   shrub!: Image;
+  race!: Image;
 
   constructor() {
     this.r = 255;
@@ -20,16 +21,16 @@ export default class Map {
   level1: Array<Array<number>> = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
     [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 3, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 3, 0, 0, 1],
     [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
     [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -44,6 +45,9 @@ export default class Map {
         } else if (level[i][j] === 2) {
           p.image(this.sand, (j * SIZE) + 288, (i * SIZE));
           p.image(this.shrub, (j * SIZE) + 288, (i * SIZE));
+        } else if (level[i][j] === 3) {
+          p.image(this.sand, (j * SIZE) + 288, (i * SIZE));
+          p.image(this.race, (j * SIZE) + 288, (i * SIZE));
         } else {
           p.fill(this.r, this.g, this.b);
           p.image(this.sand, (j * SIZE) + 288, (i * SIZE));
@@ -56,11 +60,14 @@ export default class Map {
   canMove(fil: number, col: number, level: Array<Array<number>>): boolean {
     let result: boolean = false;
     switch (level[col][fil]) {
-      case 0:
-        result = true;
+      case 1:
+        result = false;
+        break;
+      case 2:
+        result = false;
         break;
       default:
-        result = false;
+        result = true;
         break;
     }
     return result;
@@ -89,5 +96,9 @@ export default class Map {
 
   setShrub(i:Image) {
     this.shrub = i;
+  }
+
+  setRace(i:Image) {
+    this.race = i;
   }
 }

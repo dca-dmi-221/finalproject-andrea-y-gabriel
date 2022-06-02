@@ -11,6 +11,8 @@ let rock!: Image;
 let shrub!: Image;
 let home!: Image;
 let rules!: Image;
+let race!: Image;
+let bombImage!: Image;
 
 const player1: Array<Image> = [];
 const player2: Array <Image> = [];
@@ -25,6 +27,9 @@ const sketch = (p: p5) => {
     shrub = p.loadImage('../assests/obstacles/arbusto.png');
     home = p.loadImage('../assests/home.png');
     rules = p.loadImage('../assests/rules.png');
+    race = p.loadImage('../assests/race.png');
+    bombImage = p.loadImage('../assests/bomb.png');
+
     player1[0] = p.loadImage('../assests/player/player1A.png');
     player1[1] = p.loadImage('../assests/player/player1B.png');
     player1[2] = p.loadImage('../assests/player/player1C.png');
@@ -48,7 +53,8 @@ const sketch = (p: p5) => {
 
   p.setup = () => {
     p.createCanvas(1200, 720);
-    app = new App(player1, player2, buffalo, zebra, sand, rock, shrub, gui, home, rules);
+    // eslint-disable-next-line max-len
+    app = new App(player1, player2, buffalo, zebra, bombImage, sand, rock, shrub, race, gui, home, rules);
   };
 
   p.draw = () => {
