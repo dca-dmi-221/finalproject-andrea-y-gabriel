@@ -70,6 +70,9 @@ export default class App {
   lvl1: Image;
   lvl2: Image;
   lvl3: Image;
+  viewLvl1: boolean = true;
+  viewLvl2: boolean = true;
+  viewLvl3: boolean = true;
 
   constructor(
     {
@@ -267,8 +270,8 @@ export default class App {
       enemy.show(p);
       enemy.dead();
       enemy.move(p);
-      PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
-      PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
+      PLAYER1.dead(enemy.getFil(), enemy.getCol(), 17, 13);
+      PLAYER2.dead(enemy.getFil(), enemy.getCol(), 1, 1);
       this.truePositionPlayers();
       this.enemyDissapear(enemy);
     });
@@ -329,8 +332,6 @@ export default class App {
 
     p.fill(0, 83, 38);
     p.textSize(40);
-    p.text(PLAYER1.getPoints(), 45, 663);
-    p.text(PLAYER2.getPoints(), 150, 663);
     p.text(PLAYER2.getLives(), 45, 563);
   }
 
@@ -386,7 +387,14 @@ export default class App {
     p.text(PLAYER2.getPoints(), 720, 333);
   }
 
+  dead() {
+    if (PLAYER1.getLives() === 0 || PLAYER2.getLives() === 0) {
+      this.screen = 6;
+    }
+  }
+
   changeScreen(p:p5) {
+    this.dead();
     switch (this.screen) {
       case 0:
         p.image(this.home, 0, 0);
@@ -401,6 +409,10 @@ export default class App {
         break;
 
       case 3:
+        setTimeout(() => {
+          this.viewLvl1 = false;
+        }, 6000);
+
         MAP.show(p, MAP.level1);
         this.showPlayers(p);
         this.setLevelPlayers(MAP.level1);
@@ -415,9 +427,15 @@ export default class App {
           this.setPositionPlayers();
           this.truePositionPlayers();
         }
-
+        if (this.viewLvl1 === true) {
+          p.image(this.lvl1, 0, 0);
+        }
         break;
       case 4:
+        setTimeout(() => {
+          this.viewLvl2 = false;
+        }, 6000);
+
         MAP.show(p, MAP.level2);
         this.resetSpaces();
         this.spacePurple = MAP.countPurpleSpace();
@@ -437,8 +455,15 @@ export default class App {
           this.setPositionPlayers();
           this.truePositionPlayers();
         }
+        if (this.viewLvl2 === true) {
+          p.image(this.lvl2, 0, 0);
+        }
         break;
       case 5:
+        setTimeout(() => {
+          this.viewLvl3 = false;
+        }, 6000);
+
         MAP.show(p, MAP.level3);
         this.resetSpaces();
         this.showPlayers(p);
@@ -451,6 +476,9 @@ export default class App {
         this.textEnemies(p);
         if (this.enemies.length === 0 && this.count === 15) {
           this.screen += 1;
+        }
+        if (this.viewLvl3 === true) {
+          p.image(this.lvl3, 0, 0);
         }
         break;
 
