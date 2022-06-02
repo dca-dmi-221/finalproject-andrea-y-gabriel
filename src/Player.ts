@@ -5,7 +5,7 @@ import Map from './Map';
 import { PlayerDirection } from './Type';
 
 const PLAYERSIZE = 48;
-
+// small change
 export default class Player {
   posX : number;
   posY: number;
