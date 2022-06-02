@@ -14,5 +14,6 @@ export default class Buffalo extends Enemy {
     this.fil = fil;
     this.col = col;
     this.lives = 2;
+    this.points = 100;
   }
 }

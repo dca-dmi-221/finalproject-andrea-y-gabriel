@@ -16,6 +16,7 @@ export default class Enemy {
   direction: number = 0;
   die: boolean = false;
   lives!: number;
+  points!: number;
 
   constructor(imageDown: Image, imageUp: Image, imageLeft: Image, imageRight: Image) {
     this.imageDown = imageDown;
@@ -91,35 +92,37 @@ export default class Enemy {
   truePosition() {
     this.posX = (this.fil * SIZE) + 288;
     this.posY = (this.col * SIZE);
-    return this.posX;
   }
 
   dead(): boolean {
     if (this.lives === 0) {
       this.die = true;
     }
-    return this.die;// tested
+    return this.die;
   }
 
   lessLives() {
     this.lives -= 1;
-    return this.lives;// almost tested
   }
 
   getFil() {
-    return this.fil;// tested
+    return this.fil;
   }
 
   getCol() {
-    return this.col; // tested
+    return this.col;
   }
 
   getLives() {
-    return this.lives; // tested
+    return this.lives;
   }
 
-  getDie() {
-    return this.die; // tested
+  getPoints(): number { // nueva función
+    return this.points;
+  }
+
+  getDie(): boolean {
+    return this.die;
   }
 
   setMap(m:Map) {

@@ -13,6 +13,11 @@ let home!: Image;
 let rules!: Image;
 let race!: Image;
 let bombImage!: Image;
+let shield!: Image;
+let score!: Image;
+let story!: Image;
+let purpleSand!: Image;
+let greenSand!: Image;
 
 const player1: Array<Image> = [];
 const player2: Array <Image> = [];
@@ -29,6 +34,11 @@ const sketch = (p: p5) => {
     rules = p.loadImage('../assests/rules.png');
     race = p.loadImage('../assests/race.png');
     bombImage = p.loadImage('../assests/bomb.png');
+    shield = p.loadImage('../assests/shield.png');
+    score = p.loadImage('../assests/score.png');
+    story = p.loadImage('../assests/story.png');
+    purpleSand = p.loadImage('../assests/purple.png');
+    greenSand = p.loadImage('../assests/green.png');
 
     player1[0] = p.loadImage('../assests/player/player1A.png');
     player1[1] = p.loadImage('../assests/player/player1B.png');
@@ -66,6 +76,11 @@ const sketch = (p: p5) => {
       gui,
       home,
       rules,
+      shield,
+      score,
+      story,
+      purpleSand,
+      greenSand,
     };
     // eslint-disable-next-line max-len
     app = new App(initialPropsApp);

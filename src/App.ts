@@ -4,85 +4,102 @@ import Player from './Player';
 import Map from './Map';
 import Buffalo from './Buffalo';
 import Zebra from './Zebra';
-import { InitialProps } from './Interface'; // fil col
+import { InitialProps } from './Interface';
 
 export interface IpropsApp {
   player1:Array<Image>,
   player2:Array<Image>,
   buffalo:Array<Image>,
   zebra:Array<Image>,
-    bombImage:Image,
-    sand:Image,
-    rock:Image,
-    shrub:Image,
-    race:Image,
-    gui:Image,
-    home:Image,
-    rules:Image, // game interface
+  bombImage:Image,
+  sand:Image,
+  rock:Image,
+  shrub:Image,
+  race:Image,
+  gui:Image,
+  home:Image,
+  rules:Image,
+  shield: Image,
+  score: Image,
+  story: Image
+  purpleSand: Image;
+  greenSand: Image;
 }
 
 const MAP = new Map();
-const PLAYERS: Array<Player> = []; // 2 players [0][1]
+const PLAYERS: Array<Player> = [];
 
 const initialPropsPlayer1: InitialProps = {
   fil: 1,
   col: 1,
-}; // name fil col player 1
+};
 const initialPropsPlayer2: InitialProps = {
   fil: 2,
   col: 1,
-}; // name fil col player 2
+};
 
 const PLAYER1 = new Player(initialPropsPlayer1);
-const PLAYER2 = new Player(initialPropsPlayer2); // player create
+const PLAYER2 = new Player(initialPropsPlayer2);
 
 export default class App {
   enemies: Array <Enemy>;
-  player1: Array <Image> = []; // images [a,b,c,d]
-  player2: Array <Image> = []; // images [a,b,c,d]
-  buffalo: Array <Image> = []; // images [a,b,c,d]
-  zebra: Array <Image> = []; // images [a,b,c,d]
-  screen: number = 4;
+  player1: Array <Image> = [];
+  player2: Array <Image> = [];
+  buffalo: Array <Image> = [];
+  zebra: Array <Image> = [];
+  screen: number = 3;
   count: number = 0;
   gui: Image;
   home: Image;
   rules: Image;
   bomb: Image;
+  shield: Image;
+  score: Image;
+  story: Image;
+  purpleSand: Image;
+  greenSand: Image;
+  spacePurple!: number;
+  spaceGreen!: number;
 
   constructor(
     {
       player1, player2, buffalo, zebra, bombImage, sand, rock, shrub, race, gui, home, rules,
-      // parameters
+      shield, score, story, purpleSand, greenSand,
     } : IpropsApp,
   ) {
-    this.enemies = []; // arr
-    this.player1 = player1;// declare
-    this.player2 = player2;// declare
-    this.buffalo = buffalo;// declare
-    this.zebra = zebra;// declare
-    this.gui = gui;// declare
-    this.home = home;// declare
-    this.rules = rules;// declare
-    this.bomb = bombImage;// declare
+    this.enemies = [];
+    this.player1 = player1;
+    this.player2 = player2;
+    this.buffalo = buffalo;
+    this.zebra = zebra;
+    this.gui = gui;
+    this.home = home;
+    this.rules = rules;
+    this.bomb = bombImage;
+    this.shield = shield;
+    this.score = score;
+    this.story = story;
+    this.purpleSand = purpleSand;
+    this.greenSand = greenSand;
 
     PLAYERS.push(PLAYER2);
-    PLAYERS.push(PLAYER1); // push no PLAYERS arr
+    PLAYERS.push(PLAYER1);
     PLAYER1.setImage1(this.player1[0]);
-    PLAYER1.setImage2(this.player1[1]); // image array player1
+    PLAYER1.setImage2(this.player1[1]);
     PLAYER1.setImage3(this.player1[2]);
     PLAYER1.setImage4(this.player1[3]);
-    // player 2
     PLAYER2.setImage1(this.player2[0]);
     PLAYER2.setImage2(this.player2[1]);
     PLAYER2.setImage3(this.player2[2]);
     PLAYER2.setImage4(this.player2[3]);
     PLAYER1.setMap(MAP);
     PLAYER2.setMap(MAP);
-    // map
     MAP.setSand(sand);
     MAP.setRock(rock);
     MAP.setShrub(shrub);
     MAP.setRace(race);
+    MAP.setPurple(purpleSand);
+    MAP.setGreen(greenSand);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -96,7 +113,7 @@ export default class App {
     }
 
     if (p.keyCode === p.UP_ARROW) {
-      PLAYER1.move('UP'); // player1 movement
+      PLAYER1.move('UP');
     }
 
     if (p.keyCode === p.DOWN_ARROW) {
@@ -106,14 +123,14 @@ export default class App {
 
   // eslint-disable-next-line class-methods-use-this
   movePlayer2(p:p5) {
-    const K = p.key.toLocaleLowerCase();
+    const K = p.key.toLowerCase();
 
     if (K === 'd') {
       PLAYER2.move('RIGHT');
     }
 
     if (K === 'a') {
-      PLAYER2.move('LEFT'); // player2 movement
+      PLAYER2.move('LEFT');
     }
 
     if (K === 'w') {
@@ -127,17 +144,33 @@ export default class App {
 
   // eslint-disable-next-line class-methods-use-this
   putBomb1(p:p5) {
-    const K = p.key.toLocaleLowerCase();
+    const K = p.key.toLowerCase();
     if (K === 'p') {
-      PLAYER1.putBomb(); // put bomb class App method
+      PLAYER1.putBomb();
     }
   }
 
   // eslint-disable-next-line class-methods-use-this
   putBomb2(p:p5) {
-    const K = p.key.toLocaleLowerCase();
+    const K = p.key.toLowerCase();
     if (K === 'f') {
-      PLAYER2.putBomb();// put bomb class App method
+      PLAYER2.putBomb();
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  activeShield1(p:p5) {
+    const K = p.key.toLowerCase();
+    if (K === 'o') {
+      PLAYER1.protectActive();
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  activeShield2(p:p5) {
+    const K = p.key.toLowerCase();
+    if (K === 'g') {
+      PLAYER2.protectActive();
     }
   }
 
@@ -146,10 +179,12 @@ export default class App {
     this.movePlayer2(p);
     this.putBomb1(p);
     this.putBomb2(p);
+    this.activeShield1(p);
+    this.activeShield2(p);
   }
 
   button(p:p5, xButton:number, yButton:number, wButton:number, hButton:number, screen:number) {
-    const widthB = xButton + wButton;// put button App method
+    const widthB = xButton + wButton;
     const heightB = yButton + hButton;
     if (xButton < p.mouseX && p.mouseX < widthB && yButton < p.mouseY && p.mouseY < heightB) {
       this.screen = screen;
@@ -169,28 +204,44 @@ export default class App {
     }
   }
 
+  buttonScreen2(p:p5) {
+    if (this.screen === 2) {
+      this.button(p, 540, 620, 121, 39, 3);
+    }
+  }
+
   mousePressed(p:p5) {
     this.buttonScreen0(p);
     this.buttonScreen1(p);
+    this.buttonScreen2(p);
   }
 
   // eslint-disable-next-line class-methods-use-this
   showPlayers(p:p5) {
     PLAYERS.forEach((player) => {
-      player.show(p); // ESTE ES MOSTRAR
+      player.show(p, this.shield);
+      // player.plusEnemyPoints(this.enemies);
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  setPositionPlayers() {
+    PLAYER1.setFil(17);
+    PLAYER1.setCol(13);
+    PLAYER2.setFil(1);
+    PLAYER2.setCol(1);
   }
 
   // eslint-disable-next-line class-methods-use-this
   setLevelPlayers(level:Array<Array<number>>) {
     PLAYERS.forEach((player) => {
       player.setLevel(level);
-    });// ESTE ES SET LEVEL
+    });
   }
 
   showBombs(p:p5) {
     PLAYERS.forEach((player) => {
-      player.showBomb(p, this.bomb);// ESTE ES MOSTRAR DE LA BOMBA
+      player.showBomb(p, this.bomb, this.enemies);
     });
   }
 
@@ -199,22 +250,30 @@ export default class App {
       enemy.setMap(MAP);
       enemy.show(p);
       enemy.dead();
-      enemy.move(p);// ESTE ES MOSTRAR ENEMIGOS
+      enemy.move(p);
       PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
       PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
+      this.truePositionPlayers();
       this.enemyDissapear(enemy);
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  truePositionPlayers() {
+    PLAYERS.forEach((player) => {
+      player.truePosition();
     });
   }
 
   enemyDissapear(enemy: Enemy) {
     if (enemy.getDie() === true) {
-      this.enemies.splice(this.enemies.indexOf(enemy), 1);// ESTE ES SPLICE DE ENEMIGOS
+      this.enemies.splice(this.enemies.indexOf(enemy), 1);
     }
   }
 
   killenemies() {
     PLAYERS.forEach((player) => {
-      player.killEnemy(this.enemies);// ESTE ES EL KILL
+      player.killEnemy(this.enemies);
     });
   }
 
@@ -222,77 +281,79 @@ export default class App {
     p.image(this.gui, 0, 0);
     p.fill(54, 18, 81);
     p.textSize(40);
-    p.text(PLAYER1.getLives(), 45, 293);// ESTE ES MOSTRAR DEL GUI
+    p.text(PLAYER1.getLives(), 45, 293);
+    p.textSize(25);
+    p.text(`
+    ${this.spacePurple}/50`, 170, 257);
+
     p.fill(0, 83, 38);
+    p.textSize(40);
+    p.text(PLAYER1.getPoints(), 45, 663);
+    p.text(PLAYER2.getPoints(), 150, 663);
     p.text(PLAYER2.getLives(), 45, 563);
+    p.textSize(25);
+    p.text(`
+    ${this.spaceGreen}/50`, 170, 527);
+  }
+
+  resetSpaces() {
+    this.spaceGreen = 0;
+    this.spacePurple = 0;
   }
 
   changeScreen(p:p5) {
-    switch (this.screen) { // ESTE ES CAMBIO DE PANTALLAS
+    switch (this.screen) {
       case 0:
-        p.image(this.home, 0, 0); // ESTE ES HOME
+        p.image(this.home, 0, 0);
         break;
 
       case 1:
-        p.image(this.rules, 0, 0); // ESTE ES INSTRUCCIONES
+        p.image(this.rules, 0, 0);
         break;
 
       case 2:
-        MAP.show(p, MAP.level1);
-        PLAYER2.show(p);
-        PLAYER1.show(p);
-        PLAYER1.showBomb(p, this.bomb);
-        // PLAYER1.killEnemy(MAP, this.enemies); // ESTE ES MOSTRAR Y SET
-        PLAYER1.setLevel(MAP.level1);
-        PLAYER2.setLevel(MAP.level1);
-
-        this.randomEnemy(p);
-        this.enemies.forEach((enemy) => { // ESTE ES MOSTRAR ENEMIGOS
-          enemy.show(p);
-          enemy.dead();
-          // enemy.move(p, LEVEL1.level1);
-          PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
-          PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
-          if (enemy.getDie() === true) {
-            this.enemies.splice(this.enemies.indexOf(enemy), 1);// SI ESTA DIE, HACER SPLICE
-          }
-        });
-        p.image(this.gui, 0, 0);
-        p.fill(54, 18, 81);
-        p.textSize(40);
-        p.text(PLAYER1.getLives(), 45, 293);
-        p.fill(0, 83, 38);
-        p.text(PLAYER2.getLives(), 45, 563);
-        // screen += 1;
-        // PLAYER2.setFil(17);
-        // PLAYER2.setCol(13);
-        // PLAYER2.truePosition();
+        p.image(this.story, 0, 0);
         break;
+
       case 3:
-        MAP.show(p, MAP.level2);
-        PLAYER1.setLevel(MAP.level2);
-        PLAYER2.setLevel(MAP.level2);
+        MAP.show(p, MAP.level1);
+        this.spacePurple = MAP.countPurpleSpace();
+        this.spaceGreen = MAP.countGreenSpace();
+        this.showPlayers(p);
+        this.setLevelPlayers(MAP.level1);
+        this.showBombs(p);
+        this.killenemies();
+        this.showGui(p);
+        if (this.spacePurple === 50 || this.spaceGreen === 50) {
+          PLAYER1.plusPoints((this.spacePurple * 20));
+          PLAYER2.plusPoints((this.spaceGreen * 20));
+          this.screen += 1;
+          this.setPositionPlayers();
+          this.truePositionPlayers();
+        }
 
-        PLAYER1.show(p);
-        PLAYER2.show(p);
-
-        p.image(this.gui, 0, 0);
-        PLAYER1.setLives(3);
-        PLAYER2.setLives(3);
-
-        p.fill(54, 18, 81);
-        p.textSize(40);
-        p.text(PLAYER1.getLives(), 45, 293);
-        p.fill(0, 83, 38);
-        p.text(PLAYER2.getLives(), 45, 563);
-        // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
-        // screen += 1;
-        // PLAYER2.setFil(17);
-        // PLAYER2.setCol(13);
-        // PLAYER2.truePosition();
         break;
       case 4:
+        MAP.show(p, MAP.level2);
+        this.resetSpaces();
+        this.showPlayers(p);
+        this.setLevelPlayers(MAP.level2);
+        this.showBombs(p);
+        this.killenemies();
+        this.showGui(p);
+        MAP.changeColorPurple(PLAYER1.getFil(), PLAYER1.getCol());
+        MAP.changeColorGreen(PLAYER2.getFil(), PLAYER2.getCol());
+        if (this.spacePurple === 50 || this.spaceGreen === 50) {
+          PLAYER1.plusPoints((this.spacePurple * 20));
+          PLAYER2.plusPoints((this.spaceGreen * 20));
+          this.screen += 1;
+          this.setPositionPlayers();
+          this.truePositionPlayers();
+        }
+        break;
+      case 5:
         MAP.show(p, MAP.level3);
+        this.resetSpaces();
         this.showPlayers(p);
         this.setLevelPlayers(MAP.level3);
         this.showBombs(p);
@@ -303,8 +364,13 @@ export default class App {
 
         // PLAYER1.setLives(3);
         // PLAYER2.setLives(3);
+        if (this.enemies.length === 0 && this.count === 15) {
+          this.screen += 1;
+        }
+        break;
 
-        // screen += 1;
+      case 6:
+        p.image(this.score, 0, 0);
         break;
 
       default:
@@ -314,14 +380,14 @@ export default class App {
 
   // eslint-disable-next-line class-methods-use-this
   randomEnemy(p:p5) {
-    if (p.frameCount % 200 === 0 && this.count < 15) { // ESTE ES EL RANDOM CON LIMITE DE 15
+    if (p.frameCount % 200 === 0 && this.count < 15) {
       const num = Math.round(p.random(1));
       const i = Math.floor(p.random(19));
       const j = Math.floor(p.random(15));
 
       const initialPropsEnemy: InitialProps = {
         fil: i,
-        col: j, // COLUMNA Y FILA RAN
+        col: j,
       };
 
       if (MAP.canMove(i, j, MAP.level1)) {

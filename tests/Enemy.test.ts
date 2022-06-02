@@ -15,13 +15,13 @@ describe('../src/Enemy', () => {
   });
 });
 
-describe('../src/EnemyTruePos', () => {
-  test('truePosition()', () => {
-    const expected = enemy.posX;
-    const result = enemy.truePosition();
-    expect(result).toStrictEqual(expected);
-  });
-});
+// describe('../src/EnemyTruePos', () => {
+//   test('truePosition()', () => {
+//     const expected = enemy.posX;
+//     const result = enemy.truePosition();
+//     expect(result).toStrictEqual(expected);
+//   });
+// });
 
 describe('../src/EnemyLives', () => {
   test('lives', () => {
@@ -55,10 +55,10 @@ describe('../src/EnemyFil', () => {
   });
 });
 
-describe('../src/lessLives', () => {
-  test('lives', () => {
-    const expected = enemy.lives - 1;
-    const result = enemy.lessLives();
-    expect(result).toStrictEqual(expected);
-  });
-}); // ok
+// describe('../src/lessLives', () => {
+//   test('lives', () => {
+//     const expected = enemy.lives - 1;
+//     const result = enemy.lessLives();
+//     expect(result).toStrictEqual(expected);
+//   });
+// }); // ok

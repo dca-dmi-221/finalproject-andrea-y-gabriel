@@ -4,6 +4,7 @@ import Enemy from './Enemy';
 import Map from './Map';
 import { PlayerDirection } from './Type';
 import { InitialProps } from './Interface';
+import Shield from './Shield';
 
 const PLAYERSIZE = 48;
 
@@ -21,6 +22,10 @@ export default class Player {
   lives: number = 3;
   bombs: Array<Bomb> = [];
   level!: Array<Array<number>>;
+  shield!: Shield;
+  shieldActive: boolean = false;
+  canUseShield: boolean = true;
+  points: number = 0;
 
   constructor({ fil, col }: InitialProps) {
     this.pcFil = fil;
@@ -29,7 +34,7 @@ export default class Player {
     this.posY = (col * PLAYERSIZE);
   }
 
-  show(p: p5) {
+  show(p: p5, shield: Image) {
     if (this.lives > 0) {
       if (this.direction === 'DOWN') {
         p.image(this.image1, this.posX - 9.5, this.posY - 48);
@@ -40,6 +45,7 @@ export default class Player {
       } else {
         p.image(this.image4, this.posX - 9.5, this.posY - 48);
       }
+      this.showShield(p, shield);
     }
   }
 
@@ -100,12 +106,19 @@ export default class Player {
     this.bombs.splice(this.bombs.indexOf(bomb), 1);
   }
 
-  showBomb(p:p5, image:Image) { // n
+  showBomb(p:p5, image:Image, enemies: Array<Enemy>) { // n
     this.bombs.forEach((bomb) => {
       bomb.setImage(image);
       bomb.show(p);
       if (bomb.boom === true) {
         this.deleteBomb(bomb);
+        this.plusPoints(bomb.bombBoom(this.level, enemies));
+        for (let i = 0; i < enemies.length; i += 1) {
+          const enemy = enemies[i];
+          if (enemy.getLives() === 0) {
+            this.plusPoints(enemy.getPoints());
+          }
+        }
       }
     });
   }
@@ -116,11 +129,53 @@ export default class Player {
     });
   }
 
+  showShield(p:p5, shield:Image) { // nueva función
+    this.shield = new Shield(this.pcFil, this.pcCol);
+    this.shield.setImage(shield);
+    if (this.shieldActive) {
+      this.shield.show(p);
+    }
+  }
+
+  protectActive() { // nueva función
+    let result = false;
+    if (this.canUseShield) {
+      this.shieldActive = true;
+      this.canUseShield = false;
+      this.deactivateShield();
+      result = true;
+    }
+    return result;
+  }
+
+  deactivateShield() { // nueva función
+    setTimeout(() => {
+      this.protecDesactive();
+      this.enableShield();
+    }, 4000);
+  }
+
+  enableShield() { // nueva función
+    setTimeout(() => {
+      this.canUseShield = true;
+    }, 3000);
+  }
+
+  protecDesactive() { // nueva función
+    this.shieldActive = false;
+  }
+
+  plusPoints(points:number) {
+    this.points += points;
+  }
+
   dead(filEne: number, colEne: number, fil: number, col: number) {
-    if (this.pcFil === filEne && this.pcCol === colEne && this.lives > 0) {
-      this.lives -= 1;
-      this.pcCol = col;
-      this.pcFil = fil;
+    if (this.shieldActive === false) {
+      if (this.pcFil === filEne && this.pcCol === colEne && this.lives > 0) {
+        this.lives -= 1;
+        this.pcCol = col;
+        this.pcFil = fil;
+      }
     }
   }
 
@@ -142,6 +197,14 @@ export default class Player {
 
   getLives() {
     return this.lives;
+  }
+
+  getPoints() {
+    return this.points;
+  }
+
+  setPoints(points:number) {
+    this.points = points;
   }
 
   setLives(lives:number) {

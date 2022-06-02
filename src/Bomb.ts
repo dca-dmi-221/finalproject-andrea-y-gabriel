@@ -60,11 +60,12 @@ export default class Bomb {
     return this.boom = true;
   }
 
-  bombBoom(level: Array<Array<number>>, enemies: Array<Enemy>): void {
+  bombBoom(level: Array<Array<number>>, enemies: Array<Enemy>): number {
     setTimeout(() => {
       this.destroyShrub(level);
       this.killEnemy(enemies);
     }, 1000);
+    return 20;
   }
 
   killEnemy(enemies: Array<Enemy>): void {

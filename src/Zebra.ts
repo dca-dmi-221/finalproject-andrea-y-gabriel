@@ -14,5 +14,6 @@ export default class Zebra extends Enemy {
     this.fil = fil;
     this.col = col;
     this.lives = 1;
+    this.points = 50;
   }
 }
