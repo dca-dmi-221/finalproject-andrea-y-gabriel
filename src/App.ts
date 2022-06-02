@@ -4,7 +4,7 @@ import Player from './Player';
 import Map from './Map';
 import Buffalo from './Buffalo';
 import Zebra from './Zebra';
-import { InitialProps } from './Interface';
+import { InitialProps } from './Interface'; // fil col
 
 export interface IpropsApp {
   player1:Array<Image>,
@@ -18,30 +18,30 @@ export interface IpropsApp {
     race:Image,
     gui:Image,
     home:Image,
-    rules:Image,
+    rules:Image, // game interface
 }
 
 const MAP = new Map();
-const PLAYERS: Array<Player> = [];
+const PLAYERS: Array<Player> = []; // 2 players [0][1]
 
 const initialPropsPlayer1: InitialProps = {
   fil: 1,
   col: 1,
-};
+}; // name fil col player 1
 const initialPropsPlayer2: InitialProps = {
   fil: 2,
   col: 1,
-};
+}; // name fil col player 2
 
 const PLAYER1 = new Player(initialPropsPlayer1);
-const PLAYER2 = new Player(initialPropsPlayer2);
+const PLAYER2 = new Player(initialPropsPlayer2); // player create
 
 export default class App {
   enemies: Array <Enemy>;
-  player1: Array <Image> = [];
-  player2: Array <Image> = [];
-  buffalo: Array <Image> = [];
-  zebra: Array <Image> = [];
+  player1: Array <Image> = []; // images [a,b,c,d]
+  player2: Array <Image> = []; // images [a,b,c,d]
+  buffalo: Array <Image> = []; // images [a,b,c,d]
+  zebra: Array <Image> = []; // images [a,b,c,d]
   screen: number = 4;
   count: number = 0;
   gui: Image;
@@ -52,30 +52,33 @@ export default class App {
   constructor(
     {
       player1, player2, buffalo, zebra, bombImage, sand, rock, shrub, race, gui, home, rules,
+      // parameters
     } : IpropsApp,
   ) {
-    this.enemies = [];
-    this.player1 = player1;
-    this.player2 = player2;
-    this.buffalo = buffalo;
-    this.zebra = zebra;
-    this.gui = gui;
-    this.home = home;
-    this.rules = rules;
-    this.bomb = bombImage;
+    this.enemies = []; // arr
+    this.player1 = player1;// declare
+    this.player2 = player2;// declare
+    this.buffalo = buffalo;// declare
+    this.zebra = zebra;// declare
+    this.gui = gui;// declare
+    this.home = home;// declare
+    this.rules = rules;// declare
+    this.bomb = bombImage;// declare
 
     PLAYERS.push(PLAYER2);
-    PLAYERS.push(PLAYER1);
+    PLAYERS.push(PLAYER1); // push no PLAYERS arr
     PLAYER1.setImage1(this.player1[0]);
-    PLAYER1.setImage2(this.player1[1]);
+    PLAYER1.setImage2(this.player1[1]); // image array player1
     PLAYER1.setImage3(this.player1[2]);
     PLAYER1.setImage4(this.player1[3]);
+    // player 2
     PLAYER2.setImage1(this.player2[0]);
     PLAYER2.setImage2(this.player2[1]);
     PLAYER2.setImage3(this.player2[2]);
     PLAYER2.setImage4(this.player2[3]);
     PLAYER1.setMap(MAP);
     PLAYER2.setMap(MAP);
+    // map
     MAP.setSand(sand);
     MAP.setRock(rock);
     MAP.setShrub(shrub);
@@ -93,7 +96,7 @@ export default class App {
     }
 
     if (p.keyCode === p.UP_ARROW) {
-      PLAYER1.move('UP');
+      PLAYER1.move('UP'); // player1 movement
     }
 
     if (p.keyCode === p.DOWN_ARROW) {
@@ -110,7 +113,7 @@ export default class App {
     }
 
     if (K === 'a') {
-      PLAYER2.move('LEFT');
+      PLAYER2.move('LEFT'); // player2 movement
     }
 
     if (K === 'w') {
@@ -126,7 +129,7 @@ export default class App {
   putBomb1(p:p5) {
     const K = p.key.toLocaleLowerCase();
     if (K === 'p') {
-      PLAYER1.putBomb();
+      PLAYER1.putBomb(); // put bomb class App method
     }
   }
 
@@ -134,7 +137,7 @@ export default class App {
   putBomb2(p:p5) {
     const K = p.key.toLocaleLowerCase();
     if (K === 'f') {
-      PLAYER2.putBomb();
+      PLAYER2.putBomb();// put bomb class App method
     }
   }
 
@@ -146,7 +149,7 @@ export default class App {
   }
 
   button(p:p5, xButton:number, yButton:number, wButton:number, hButton:number, screen:number) {
-    const widthB = xButton + wButton;
+    const widthB = xButton + wButton;// put button App method
     const heightB = yButton + hButton;
     if (xButton < p.mouseX && p.mouseX < widthB && yButton < p.mouseY && p.mouseY < heightB) {
       this.screen = screen;
@@ -174,7 +177,7 @@ export default class App {
   // eslint-disable-next-line class-methods-use-this
   showPlayers(p:p5) {
     PLAYERS.forEach((player) => {
-      player.show(p);
+      player.show(p); // ESTE ES MOSTRAR
     });
   }
 
@@ -182,12 +185,12 @@ export default class App {
   setLevelPlayers(level:Array<Array<number>>) {
     PLAYERS.forEach((player) => {
       player.setLevel(level);
-    });
+    });// ESTE ES SET LEVEL
   }
 
   showBombs(p:p5) {
     PLAYERS.forEach((player) => {
-      player.showBomb(p, this.bomb);
+      player.showBomb(p, this.bomb);// ESTE ES MOSTRAR DE LA BOMBA
     });
   }
 
@@ -196,7 +199,7 @@ export default class App {
       enemy.setMap(MAP);
       enemy.show(p);
       enemy.dead();
-      enemy.move(p);
+      enemy.move(p);// ESTE ES MOSTRAR ENEMIGOS
       PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
       PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
       this.enemyDissapear(enemy);
@@ -205,13 +208,13 @@ export default class App {
 
   enemyDissapear(enemy: Enemy) {
     if (enemy.getDie() === true) {
-      this.enemies.splice(this.enemies.indexOf(enemy), 1);
+      this.enemies.splice(this.enemies.indexOf(enemy), 1);// ESTE ES SPLICE DE ENEMIGOS
     }
   }
 
   killenemies() {
     PLAYERS.forEach((player) => {
-      player.killEnemy(this.enemies);
+      player.killEnemy(this.enemies);// ESTE ES EL KILL
     });
   }
 
@@ -219,19 +222,19 @@ export default class App {
     p.image(this.gui, 0, 0);
     p.fill(54, 18, 81);
     p.textSize(40);
-    p.text(PLAYER1.getLives(), 45, 293);
+    p.text(PLAYER1.getLives(), 45, 293);// ESTE ES MOSTRAR DEL GUI
     p.fill(0, 83, 38);
     p.text(PLAYER2.getLives(), 45, 563);
   }
 
   changeScreen(p:p5) {
-    switch (this.screen) {
+    switch (this.screen) { // ESTE ES CAMBIO DE PANTALLAS
       case 0:
-        p.image(this.home, 0, 0);
+        p.image(this.home, 0, 0); // ESTE ES HOME
         break;
 
       case 1:
-        p.image(this.rules, 0, 0);
+        p.image(this.rules, 0, 0); // ESTE ES INSTRUCCIONES
         break;
 
       case 2:
@@ -239,20 +242,19 @@ export default class App {
         PLAYER2.show(p);
         PLAYER1.show(p);
         PLAYER1.showBomb(p, this.bomb);
-        // PLAYER1.killEnemy(MAP, this.enemies);
+        // PLAYER1.killEnemy(MAP, this.enemies); // ESTE ES MOSTRAR Y SET
         PLAYER1.setLevel(MAP.level1);
         PLAYER2.setLevel(MAP.level1);
 
         this.randomEnemy(p);
-        this.enemies.forEach((enemy) => {
-          enemy.setMap(MAP);
+        this.enemies.forEach((enemy) => { // ESTE ES MOSTRAR ENEMIGOS
           enemy.show(p);
           enemy.dead();
           // enemy.move(p, LEVEL1.level1);
           PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
           PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
           if (enemy.getDie() === true) {
-            this.enemies.splice(this.enemies.indexOf(enemy), 1);
+            this.enemies.splice(this.enemies.indexOf(enemy), 1);// SI ESTA DIE, HACER SPLICE
           }
         });
         p.image(this.gui, 0, 0);
@@ -312,14 +314,14 @@ export default class App {
 
   // eslint-disable-next-line class-methods-use-this
   randomEnemy(p:p5) {
-    if (p.frameCount % 200 === 0 && this.count < 15) {
+    if (p.frameCount % 200 === 0 && this.count < 15) { // ESTE ES EL RANDOM CON LIMITE DE 15
       const num = Math.round(p.random(1));
       const i = Math.floor(p.random(19));
       const j = Math.floor(p.random(15));
 
       const initialPropsEnemy: InitialProps = {
         fil: i,
-        col: j,
+        col: j, // COLUMNA Y FILA RAN
       };
 
       if (MAP.canMove(i, j, MAP.level1)) {

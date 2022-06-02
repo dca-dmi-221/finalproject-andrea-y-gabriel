@@ -97,27 +97,27 @@ export default class Enemy {
     if (this.lives === 0) {
       this.die = true;
     }
-    return this.die;
+    return this.die;// tested
   }
 
   lessLives() {
-    this.lives -= 1;
+    this.lives -= 1;// almost tested
   }
 
   getFil() {
-    return this.fil;
+    return this.fil;// tested
   }
 
   getCol() {
-    return this.col;
+    return this.col; // tested
   }
 
   getLives() {
-    return this.lives;
+    return this.lives; // tested
   }
 
   getDie() {
-    return this.die;
+    return this.die; // tested
   }
 
   setMap(m:Map) {
