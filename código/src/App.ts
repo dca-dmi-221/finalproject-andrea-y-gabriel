@@ -15,7 +15,7 @@ export default class App {
   player2: Array <Image> = [];
   buffalo: Array <Image> = [];
   zebra: Array <Image> = [];
-  screen: number = 2;
+  screen: number = 0;
   count: number = 0;
   gui: Image;
   home: Image;

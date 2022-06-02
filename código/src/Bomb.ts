@@ -55,8 +55,10 @@ export default class Bomb {
   killEnemy(enemies: Array<Enemy>): void {
     for (let i = 0; i < enemies.length; i += 1) {
       const enemy = enemies[i];
-      // eslint-disable-next-line max-len
-      if (enemy.fil === this.fil + 1 || enemy.fil === this.fil - 1 || enemy.col === this.col + 1 || enemy.col === this.col - 1) {
+      if ((enemy.fil === this.fil + 1 && enemy.col === this.col)
+      || (enemy.fil === this.fil - 1 && enemy.col === this.col)
+      || (enemy.col === this.col + 1 && enemy.fil === this.fil)
+      || (enemy.col === this.col - 1 && enemy.fil === this.fil)) {
         enemy.lessLives();
       }
     }
