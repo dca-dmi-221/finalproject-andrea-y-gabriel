@@ -20,48 +20,65 @@ export default class Bomb {
     this.posY = (this.col * BOMBSIZE);
   }
 
-  show(p: p5) {
+  show(p: p5) { // n?
     p.image(this.image, this.posX, this.posY);
   }
 
-  destroyShrub(refMap: Map) {
+  destroyRightShrub(refMap: Map) {
     if (refMap.level1[this.col][this.fil + 1] === 2) {
       // eslint-disable-next-line no-param-reassign
       refMap.level1[this.col][this.fil + 1] = 0;
     }
+  }
+
+  destroyLeftShrub(refMap: Map) {
     if (refMap.level1[this.col][this.fil - 1] === 2) {
       // eslint-disable-next-line no-param-reassign
       refMap.level1[this.col][this.fil - 1] = 0;
     }
+  }
+
+  destroyUpShrub(refMap: Map) {
     if (refMap.level1[this.col - 1][this.fil] === 2) {
       // eslint-disable-next-line no-param-reassign
       refMap.level1[this.col - 1][this.fil] = 0;
     }
+  }
+
+  destroyDownShrub(refMap: Map) {
     if (refMap.level1[this.col + 1][this.fil] === 2) {
       // eslint-disable-next-line no-param-reassign
       refMap.level1[this.col + 1][this.fil] = 0;
     }
+  }
+
+  destroyShrub(refMap: Map): boolean {
+    this.destroyDownShrub(refMap);
+    this.destroyUpShrub(refMap);
+    this.destroyLeftShrub(refMap);
+    this.destroyRightShrub(refMap);
     // eslint-disable-next-line no-return-assign
     return this.boom = true;
   }
 
-  bombBoom(refMap: Map, enemies: Array<Enemy>) {
+  bombBoom(refMap: Map, enemies: Array<Enemy>): void {
     setTimeout(() => {
       this.destroyShrub(refMap);
       this.killEnemy(enemies);
-    }, 2000);
+    }, 1000);
   }
 
   killEnemy(enemies: Array<Enemy>): void {
-    if (this.lessLives === false) {
+    if (this.lessLives === true) {
       for (let i = 0; i < enemies.length; i += 1) {
         const enemy = enemies[i];
         if ((enemy.fil === this.fil + 1 && enemy.col === this.col)
       || (enemy.fil === this.fil - 1 && enemy.col === this.col)
       || (enemy.col === this.col + 1 && enemy.fil === this.fil)
-      || (enemy.col === this.col - 1 && enemy.fil === this.fil)) {
+      || (enemy.col === this.col - 1 && enemy.fil === this.fil)
+      || (enemy.fil === this.fil && enemy.col === this.col)) {
           enemy.lessLives();
-          this.lessLives = true;
+          this.lessLives = false;
         }
       }
     }

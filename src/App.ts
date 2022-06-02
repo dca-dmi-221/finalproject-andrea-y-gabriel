@@ -5,7 +5,7 @@ import Map from './Map';
 import Buffalo from './Buffalo';
 import Zebra from './Zebra';
 
-const LEVEL1 = new Map();
+const MAP = new Map();
 const PLAYER1 = new Player(1, 1);
 const PLAYER2 = new Player(2, 1);
 
@@ -15,7 +15,7 @@ export default class App {
   player2: Array <Image> = [];
   buffalo: Array <Image> = [];
   zebra: Array <Image> = [];
-  screen: number = 0;
+  screen: number = 2;
   count: number = 0;
   gui: Image;
   home: Image;
@@ -55,30 +55,30 @@ export default class App {
     PLAYER2.setImage2(this.player2[1]);
     PLAYER2.setImage3(this.player2[2]);
     PLAYER2.setImage4(this.player2[3]);
-    PLAYER1.setMap(LEVEL1);
-    PLAYER2.setMap(LEVEL1);
-    LEVEL1.setSand(sand);
-    LEVEL1.setRock(rock);
-    LEVEL1.setShrub(shrub);
-    LEVEL1.setRace(race);
+    PLAYER1.setMap(MAP);
+    PLAYER2.setMap(MAP);
+    MAP.setSand(sand);
+    MAP.setRock(rock);
+    MAP.setShrub(shrub);
+    MAP.setRace(race);
   }
 
   // eslint-disable-next-line class-methods-use-this
   movePlayer1(p:p5) {
     if (p.keyCode === p.RIGHT_ARROW) {
-      PLAYER1.move('RIGHT', LEVEL1.level1);
+      PLAYER1.move('RIGHT');
     }
 
     if (p.keyCode === p.LEFT_ARROW) {
-      PLAYER1.move('LEFT', LEVEL1.level1);
+      PLAYER1.move('LEFT');
     }
 
     if (p.keyCode === p.UP_ARROW) {
-      PLAYER1.move('UP', LEVEL1.level1);
+      PLAYER1.move('UP');
     }
 
     if (p.keyCode === p.DOWN_ARROW) {
-      PLAYER1.move('DOWN', LEVEL1.level1);
+      PLAYER1.move('DOWN');
     }
   }
 
@@ -87,19 +87,19 @@ export default class App {
     const K = p.key.toLocaleLowerCase();
 
     if (K === 'd') {
-      PLAYER2.move('RIGHT', LEVEL1.level1);
+      PLAYER2.move('RIGHT');
     }
 
     if (K === 'a') {
-      PLAYER2.move('LEFT', LEVEL1.level1);
+      PLAYER2.move('LEFT');
     }
 
     if (K === 'w') {
-      PLAYER2.move('UP', LEVEL1.level1);
+      PLAYER2.move('UP');
     }
 
     if (K === 's') {
-      PLAYER2.move('DOWN', LEVEL1.level1);
+      PLAYER2.move('DOWN');
     }
   }
 
@@ -139,21 +139,22 @@ export default class App {
         break;
 
       case 2:
-        LEVEL1.show(p, LEVEL1.level1);
+        MAP.show(p, MAP.level1);
         PLAYER2.show(p);
         PLAYER1.show(p);
         PLAYER1.showBomb(p, this.bomb);
-        PLAYER1.killEnemy(LEVEL1, this.enemies);
+        PLAYER1.killEnemy(MAP, this.enemies);
+        PLAYER1.setLevel(MAP.level1);
+        PLAYER2.setLevel(MAP.level1);
 
         this.randomEnemy(p);
         this.enemies.forEach((enemy) => {
-          enemy.setMap(LEVEL1);
+          enemy.setMap(MAP);
           enemy.show(p);
           enemy.dead();
           // enemy.move(p, LEVEL1.level1);
           PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
           PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
-          console.log(enemy.getLives());
           if (enemy.getDie() === true) {
             this.enemies.splice(this.enemies.indexOf(enemy), 1);
           }
@@ -163,27 +164,68 @@ export default class App {
         p.textSize(40);
         p.text(PLAYER1.getLives(), 45, 293);
         p.fill(0, 83, 38);
-        p.text(PLAYER1.getLives(), 45, 563);
+        p.text(PLAYER2.getLives(), 45, 563);
         // screen += 1;
+        // PLAYER2.setFil(17);
+        // PLAYER2.setCol(13);
+        // PLAYER2.truePosition();
         break;
       case 3:
-        LEVEL1.show(p, LEVEL1.level1); PLAYER1.show(p);
-        PLAYER2.show(p);
-        // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
-        // screen += 1;
-        break;
-      case 4:
-        LEVEL1.show(p, LEVEL1.level1);
+        MAP.show(p, MAP.level2);
+        PLAYER1.setLevel(MAP.level2);
+        PLAYER2.setLevel(MAP.level2);
+
         PLAYER1.show(p);
         PLAYER2.show(p);
-        // if (ENEMIES2.kill(PLAYER1.getFil(), PLAYER1.getCol())) {
-        //   PLAYER1.setPosition(1, 1);
-        //   PLAYER1.lessLives();
-        // }
-        // if (ENEMIES2.kill(PLAYER2.getFil(), PLAYER2.getCol())) {
-        //   PLAYER2.setPosition(3, 1);
-        //   PLAYER2.lessLives();
-        // }
+
+        p.image(this.gui, 0, 0);
+        PLAYER1.setLives(3);
+        PLAYER2.setLives(3);
+
+        p.fill(54, 18, 81);
+        p.textSize(40);
+        p.text(PLAYER1.getLives(), 45, 293);
+        p.fill(0, 83, 38);
+        p.text(PLAYER2.getLives(), 45, 563);
+        // LEVEL1.changeColor(p, PLAYER1.getX(), PLAYER1.getY());
+        // screen += 1;
+        // PLAYER2.setFil(17);
+        // PLAYER2.setCol(13);
+        // PLAYER2.truePosition();
+        break;
+      case 4:
+        MAP.show(p, MAP.level3);
+        PLAYER1.setLevel(MAP.level3);
+        PLAYER2.setLevel(MAP.level3);
+        PLAYER2.show(p);
+        PLAYER1.show(p);
+        PLAYER1.showBomb(p, this.bomb);
+        PLAYER1.killEnemy(MAP, this.enemies);
+
+        this.randomEnemy(p);
+        this.enemies.forEach((enemy) => {
+          enemy.setMap(MAP);
+          enemy.show(p);
+          enemy.dead();
+          enemy.move(p);
+          PLAYER1.dead(enemy.getFil(), enemy.getCol(), 1, 1);
+          PLAYER2.dead(enemy.getFil(), enemy.getCol(), 2, 1);
+          if (enemy.getDie() === true) {
+            this.enemies.splice(this.enemies.indexOf(enemy), 1);
+          }
+        });
+        // PLAYER1.show(p);
+        // PLAYER2.show(p);
+
+        // p.image(this.gui, 0, 0);
+        // PLAYER1.setLives(3);
+        // PLAYER2.setLives(3);
+
+        // p.fill(54, 18, 81);
+        // p.textSize(40);
+        // p.text(PLAYER1.getLives(), 45, 293);
+        // p.fill(0, 83, 38);
+        // p.text(PLAYER2.getLives(), 45, 563);
         // screen += 1;
         break;
 
@@ -207,7 +249,7 @@ export default class App {
       const j = Math.floor(p.random(15));
       const num = Math.round(p.random(1));
 
-      if (LEVEL1.canMove(i, j, LEVEL1.level1)) {
+      if (MAP.canMove(i, j, MAP.level1)) {
         // eslint-disable-next-line default-case
         switch (num) {
           case 0:

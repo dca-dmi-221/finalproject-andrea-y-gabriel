@@ -5,7 +5,7 @@ import Map from './Map';
 import { PlayerDirection } from './Type';
 
 const PLAYERSIZE = 48;
-// small change
+
 export default class Player {
   posX : number;
   posY: number;
@@ -19,6 +19,7 @@ export default class Player {
   refMap!: Map;
   lives: number = 3;
   bombs: Array<Bomb> = [];
+  level!: Array<Array<number>>;
 
   constructor(fil: number, col: number) {
     this.pcFil = fil;
@@ -41,29 +42,44 @@ export default class Player {
     }
   }
 
-  move(direction: PlayerDirection, level: Array<Array<number>>) {
+  moveDown() {
+    if (this.refMap.canMove(this.pcFil, this.pcCol + 1, this.level)) {
+      this.pcCol += 1;
+    }
+  }
+
+  moveUp() {
+    if (this.refMap.canMove(this.pcFil, this.pcCol - 1, this.level)) {
+      this.pcCol -= 1;
+    }
+  }
+
+  moveLeft() {
+    if (this.refMap.canMove(this.pcFil - 1, this.pcCol, this.level)) {
+      this.pcFil -= 1;
+    }
+  }
+
+  moveRight() {
+    if (this.refMap.canMove(this.pcFil + 1, this.pcCol, this.level)) {
+      this.pcFil += 1;
+    }
+  }
+
+  move(direction: PlayerDirection) {
+    // eslint-disable-next-line default-case
     switch (direction) {
       case 'DOWN':
-        if (this.refMap.canMove(this.pcFil, this.pcCol + 1, level)) {
-          this.pcCol += 1;
-        }
+        this.moveDown();
         break;
       case 'UP':
-        if (this.refMap.canMove(this.pcFil, this.pcCol - 1, level)) {
-          this.pcCol -= 1;
-        }
+        this.moveUp();
         break;
       case 'LEFT':
-        if (this.refMap.canMove(this.pcFil - 1, this.pcCol, level)) {
-          this.pcFil -= 1;
-        }
+        this.moveLeft();
         break;
       case 'RIGHT':
-        if (this.refMap.canMove(this.pcFil + 1, this.pcCol, level)) {
-          this.pcFil += 1;
-        }
-        break;
-      default:
+        this.moveRight();
         break;
     }
     this.direction = direction;
@@ -79,17 +95,21 @@ export default class Player {
     this.bombs.push(new Bomb(this.pcFil, this.pcCol));
   }
 
-  showBomb(p:p5, image:Image) {
+  deleteBomb(bomb:Bomb) {
+    this.bombs.splice(this.bombs.indexOf(bomb), 1);
+  }
+
+  showBomb(p:p5, image:Image) { // n
     this.bombs.forEach((bomb) => {
       bomb.setImage(image);
       bomb.show(p);
       if (bomb.boom === true) {
-        this.bombs.splice(this.bombs.indexOf(bomb), 1);
+        this.deleteBomb(bomb);
       }
     });
   }
 
-  killEnemy(refMap: Map, enemies: Array<Enemy>) {
+  killEnemy(refMap: Map, enemies: Array<Enemy>) { // n
     this.bombs.forEach((bomb) => {
       bomb.bombBoom(refMap, enemies);
     });
@@ -123,6 +143,10 @@ export default class Player {
     return this.lives;
   }
 
+  setLives(lives:number) {
+    this.lives = lives;
+  }
+
   setFil(fil: number) {
     this.pcFil = fil;
   }
@@ -135,19 +159,23 @@ export default class Player {
     this.refMap = m;
   }
 
-  setImage1(i:Image) {
+  setLevel(level:Array<Array<number>>) {
+    this.level = level;
+  }
+
+  setImage1(i:Image) { // n
     this.image1 = i;
   }
 
-  setImage2(i:Image) {
+  setImage2(i:Image) { // n
     this.image2 = i;
   }
 
-  setImage3(i:Image) {
+  setImage3(i:Image) { // n
     this.image3 = i;
   }
 
-  setImage4(i:Image) {
+  setImage4(i:Image) { // n
     this.image4 = i;
   }
 }
