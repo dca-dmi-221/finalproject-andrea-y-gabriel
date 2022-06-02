@@ -6,24 +6,22 @@ const SIZE = 48;
 export default class Enemy {
   posX : number;
   posY: number;
-  fil: number;
-  col: number;
+  fil!: number;
+  col!: number;
   refMap!: Map;
-  image1!: Image;
-  image2!: Image;
-  image3!: Image;
-  image4!: Image;
+  imageDown!: Image;
+  imageUp!: Image;
+  imageLeft!: Image;
+  imageRight!: Image;
   direction: number = 0;
   die: boolean = false;
   lives!: number;
 
-  constructor(fil: number, col: number, i1: Image, i2: Image, i3: Image, i4: Image) {
-    this.fil = fil;
-    this.col = col;
-    this.image1 = i1;
-    this.image2 = i2;
-    this.image3 = i3;
-    this.image4 = i4;
+  constructor(imageDown: Image, imageUp: Image, imageLeft: Image, imageRight: Image) {
+    this.imageDown = imageDown;
+    this.imageUp = imageUp;
+    this.imageLeft = imageLeft;
+    this.imageRight = imageRight;
     this.posX = (this.fil * SIZE) + 288;
     this.posY = (this.col * SIZE);
   }
@@ -31,13 +29,13 @@ export default class Enemy {
   show(p:p5) {
     p.imageMode(p.CENTER);
     if (this.direction === 0) {
-      p.image(this.image1, this.posX + 24, this.posY);
+      p.image(this.imageDown, this.posX + 24, this.posY);
     } else if (this.direction === 1) {
-      p.image(this.image2, this.posX + 24, this.posY);
+      p.image(this.imageUp, this.posX + 24, this.posY);
     } else if (this.direction === 2) {
-      p.image(this.image4, this.posX + 24, this.posY);
+      p.image(this.imageLeft, this.posX + 24, this.posY);
     } else {
-      p.image(this.image3, this.posX + 24, this.posY);
+      p.image(this.imageRight, this.posX + 24, this.posY);
     }
     p.imageMode(p.CORNER);
   }
@@ -120,22 +118,6 @@ export default class Enemy {
 
   getDie() {
     return this.die;
-  }
-
-  setImage1(i:Image) {
-    this.image1 = i;
-  }
-
-  setImage2(i:Image) {
-    this.image2 = i;
-  }
-
-  setImage3(i:Image) {
-    this.image3 = i;
-  }
-
-  setImage4(i:Image) {
-    this.image4 = i;
   }
 
   setMap(m:Map) {

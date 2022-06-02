@@ -3,6 +3,7 @@ import Bomb from './Bomb';
 import Enemy from './Enemy';
 import Map from './Map';
 import { PlayerDirection } from './Type';
+import { InitialProps } from './Interface';
 
 const PLAYERSIZE = 48;
 
@@ -21,7 +22,7 @@ export default class Player {
   bombs: Array<Bomb> = [];
   level!: Array<Array<number>>;
 
-  constructor(fil: number, col: number) {
+  constructor({ fil, col }: InitialProps) {
     this.pcFil = fil;
     this.pcCol = col;
     this.posX = (fil * PLAYERSIZE) + 288;
@@ -109,9 +110,9 @@ export default class Player {
     });
   }
 
-  killEnemy(refMap: Map, enemies: Array<Enemy>) { // n
+  killEnemy(enemies: Array<Enemy>) { // n
     this.bombs.forEach((bomb) => {
-      bomb.bombBoom(refMap, enemies);
+      bomb.bombBoom(this.level, enemies);
     });
   }
 

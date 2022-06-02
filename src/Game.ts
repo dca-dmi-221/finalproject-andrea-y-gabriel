@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import './style.css';
 import p5, { Image } from 'p5';
-import App from './App';
+import App, { IpropsApp } from './App';
 
 let app!: App;
 
@@ -53,8 +53,22 @@ const sketch = (p: p5) => {
 
   p.setup = () => {
     p.createCanvas(1200, 720);
+    const initialPropsApp: IpropsApp = {
+      player1,
+      player2,
+      buffalo,
+      zebra,
+      bombImage,
+      sand,
+      rock,
+      shrub,
+      race,
+      gui,
+      home,
+      rules,
+    };
     // eslint-disable-next-line max-len
-    app = new App(player1, player2, buffalo, zebra, bombImage, sand, rock, shrub, race, gui, home, rules);
+    app = new App(initialPropsApp);
   };
 
   p.draw = () => {

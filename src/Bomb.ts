@@ -1,6 +1,5 @@
 import p5, { Image } from 'p5';
 import Enemy from './Enemy';
-import Map from './Map';
 
 const BOMBSIZE = 48;
 
@@ -24,46 +23,46 @@ export default class Bomb {
     p.image(this.image, this.posX, this.posY);
   }
 
-  destroyRightShrub(refMap: Map) {
-    if (refMap.level1[this.col][this.fil + 1] === 2) {
+  destroyRightShrub(level: Array<Array<number>>) {
+    if (level[this.col][this.fil + 1] === 2) {
       // eslint-disable-next-line no-param-reassign
-      refMap.level1[this.col][this.fil + 1] = 0;
+      level[this.col][this.fil + 1] = 0;
     }
   }
 
-  destroyLeftShrub(refMap: Map) {
-    if (refMap.level1[this.col][this.fil - 1] === 2) {
+  destroyLeftShrub(level: Array<Array<number>>) {
+    if (level[this.col][this.fil - 1] === 2) {
       // eslint-disable-next-line no-param-reassign
-      refMap.level1[this.col][this.fil - 1] = 0;
+      level[this.col][this.fil - 1] = 0;
     }
   }
 
-  destroyUpShrub(refMap: Map) {
-    if (refMap.level1[this.col - 1][this.fil] === 2) {
+  destroyUpShrub(level: Array<Array<number>>) {
+    if (level[this.col - 1][this.fil] === 2) {
       // eslint-disable-next-line no-param-reassign
-      refMap.level1[this.col - 1][this.fil] = 0;
+      level[this.col - 1][this.fil] = 0;
     }
   }
 
-  destroyDownShrub(refMap: Map) {
-    if (refMap.level1[this.col + 1][this.fil] === 2) {
+  destroyDownShrub(level: Array<Array<number>>) {
+    if (level[this.col + 1][this.fil] === 2) {
       // eslint-disable-next-line no-param-reassign
-      refMap.level1[this.col + 1][this.fil] = 0;
+      level[this.col + 1][this.fil] = 0;
     }
   }
 
-  destroyShrub(refMap: Map): boolean {
-    this.destroyDownShrub(refMap);
-    this.destroyUpShrub(refMap);
-    this.destroyLeftShrub(refMap);
-    this.destroyRightShrub(refMap);
+  destroyShrub(level: Array<Array<number>>): boolean {
+    this.destroyDownShrub(level);
+    this.destroyUpShrub(level);
+    this.destroyLeftShrub(level);
+    this.destroyRightShrub(level);
     // eslint-disable-next-line no-return-assign
     return this.boom = true;
   }
 
-  bombBoom(refMap: Map, enemies: Array<Enemy>): void {
+  bombBoom(level: Array<Array<number>>, enemies: Array<Enemy>): void {
     setTimeout(() => {
-      this.destroyShrub(refMap);
+      this.destroyShrub(level);
       this.killEnemy(enemies);
     }, 1000);
   }
