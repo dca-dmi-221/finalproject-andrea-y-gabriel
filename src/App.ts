@@ -376,7 +376,7 @@ export default class App {
   }
 
   timePlaying(): number {
-    return (Math.floor(this.milis / 1000) / 60);
+    return (Math.floor((this.milis / 1000) / 60));
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -390,7 +390,7 @@ export default class App {
     p.text(PLAYER2.getPoints(), 720, 333);
 
     p.fill(0, 65, 105);
-    p.text(`${this.timePlaying()} min`, 485, 187);
+    p.text(`${this.timePlaying()}`, 485, 187);
   }
 
   dead() {
