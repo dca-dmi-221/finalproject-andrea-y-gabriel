@@ -27,7 +27,7 @@ export default class Enemy {
     this.posY = (this.col * SIZE);
   }
 
-  show(p:p5) {
+  show(p:p5): void {
     p.imageMode(p.CENTER);
     if (this.direction === 0) {
       p.image(this.imageDown, this.posX + 24, this.posY);
@@ -41,33 +41,33 @@ export default class Enemy {
     p.imageMode(p.CORNER);
   }
 
-  moveDown() {
+  moveDown(): void {
     if (this.refMap.canMove(this.fil, this.col + 1, this.refMap.level3)) {
       this.col += 1;
     }
   }
 
-  moveUp() {
+  moveUp(): void {
     if (this.refMap.canMove(this.fil, this.col - 1, this.refMap.level3)) {
       this.col -= 1;
     }
   }
 
-  moveLeft() {
+  moveLeft(): void {
     if (this.refMap.canMove(this.fil - 1, this.col, this.refMap.level3)) {
       this.fil -= 1;
     }
   }
 
-  moveRight() {
+  moveRight(): void {
     if (this.refMap.canMove(this.fil + 1, this.col, this.refMap.level3)) {
       this.fil += 1;
     }
   }
 
-  move(p:p5) {
+  move(p:p5): void {
     let dir: number = 0;
-    if (p.frameCount % 40 === 0) {
+    if (p.frameCount % 40 === 0) { // tiempo que se demora en hacer un cambio de movimiento
       dir = Math.round(p.random(3));
       // eslint-disable-next-line default-case
       switch (this.direction) {
@@ -89,7 +89,7 @@ export default class Enemy {
     this.truePosition();
   }
 
-  truePosition() {
+  truePosition(): void {
     this.posX = (this.fil * SIZE) + 288;
     this.posY = (this.col * SIZE);
   }
@@ -101,19 +101,19 @@ export default class Enemy {
     return this.die;
   }
 
-  lessLives() {
+  lessLives(): void {
     this.lives -= 1;
   }
 
-  getFil() {
+  getFil(): number {
     return this.fil;
   }
 
-  getCol() {
+  getCol(): number {
     return this.col;
   }
 
-  getLives() {
+  getLives(): number {
     return this.lives;
   }
 
@@ -125,7 +125,7 @@ export default class Enemy {
     return this.die;
   }
 
-  setMap(m:Map) {
+  setMap(m:Map): void {
     this.refMap = m;
   }
 }

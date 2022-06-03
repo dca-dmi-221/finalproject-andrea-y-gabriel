@@ -8,7 +8,7 @@ const map = new Map();
 
 /* eslint-disable no-undef */
 describe('../src/Map sand', () => {
-  test('truePosition()', () => {
+  test('setSand()', () => {
     const expected = undefined;
     const result = map.setSand();
     expect(result).toStrictEqual(expected);
@@ -16,7 +16,7 @@ describe('../src/Map sand', () => {
 });
 
 describe('../src/Map rock', () => {
-  test('truePosition()', () => {
+  test('setRock()', () => {
     const expected = undefined;
     const result = map.setRock();
     expect(result).toStrictEqual(expected);
@@ -24,28 +24,28 @@ describe('../src/Map rock', () => {
 });
 
 describe('../src/Map shrub', () => {
-  test('truePosition()', () => {
+  test('setShrub()', () => {
     const expected = undefined;
     const result = map.setShrub();
     expect(result).toStrictEqual(expected);
   });
 });
 describe('../src/Map race', () => {
-  test('truePosition()', () => {
+  test('setRace()', () => {
     const expected = undefined;
     const result = map.setRace();
     expect(result).toStrictEqual(expected);
   });
 });
 describe('../src/Map PURPLE', () => {
-  test('truePosition()', () => {
+  test('setPurple()', () => {
     const expected = undefined;
     const result = map.setPurple();
     expect(result).toStrictEqual(expected);
   });
 });
 describe('../src/Map green', () => {
-  test('truePosition()', () => {
+  test('setGreen()', () => {
     const expected = undefined;
     const result = map.setGreen();
     expect(result).toStrictEqual(expected);

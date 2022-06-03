@@ -21,6 +21,7 @@ let greenSand!: Image;
 let lvl1!: Image;
 let lvl2!: Image;
 let lvl3!: Image;
+let crown!: Image;
 
 const player1: Array<Image> = [];
 const player2: Array <Image> = [];
@@ -45,6 +46,7 @@ const sketch = (p: p5) => {
     lvl1 = p.loadImage('../assests/lvl1.png');
     lvl2 = p.loadImage('../assests/lvl2.png');
     lvl3 = p.loadImage('../assests/lvl3.png');
+    crown = p.loadImage('../assests/corona.png');
 
     player1[0] = p.loadImage('../assests/player/player1A.png');
     player1[1] = p.loadImage('../assests/player/player1B.png');
@@ -90,6 +92,7 @@ const sketch = (p: p5) => {
       lvl1,
       lvl2,
       lvl3,
+      crown,
     };
     // eslint-disable-next-line max-len
     app = new App(initialPropsApp);

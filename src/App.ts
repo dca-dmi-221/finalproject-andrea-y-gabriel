@@ -27,6 +27,7 @@ export interface IpropsApp {
   lvl1: Image;
   lvl2: Image;
   lvl3: Image;
+  crown: Image;
 }
 
 const MAP = new Map();
@@ -73,11 +74,13 @@ export default class App {
   viewLvl1: boolean = true;
   viewLvl2: boolean = true;
   viewLvl3: boolean = true;
+  crown: Image;
+  milis!: number;
 
   constructor(
     {
       player1, player2, buffalo, zebra, bombImage, sand, rock, shrub, race, gui, home, rules,
-      shield, score, story, purpleSand, greenSand, lvl1, lvl2, lvl3,
+      shield, score, story, purpleSand, greenSand, lvl1, lvl2, lvl3, crown,
     } : IpropsApp,
   ) {
     this.enemies = [];
@@ -97,6 +100,7 @@ export default class App {
     this.lvl1 = lvl1;
     this.lvl2 = lvl2;
     this.lvl3 = lvl3;
+    this.crown = crown;
 
     PLAYERS.push(PLAYER2);
     PLAYERS.push(PLAYER1);
@@ -119,7 +123,7 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  movePlayer1(p:p5) {
+  movePlayer1(p:p5): void {
     if (p.keyCode === p.RIGHT_ARROW) {
       PLAYER1.move('RIGHT');
     }
@@ -138,7 +142,7 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  movePlayer2(p:p5) {
+  movePlayer2(p:p5): void {
     const K = p.key.toLowerCase();
 
     if (K === 'd') {
@@ -159,7 +163,7 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  putBomb1(p:p5) {
+  putBomb1(p:p5): void {
     const K = p.key.toLowerCase();
     if (K === 'p') {
       PLAYER1.putBomb();
@@ -167,7 +171,7 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  putBomb2(p:p5) {
+  putBomb2(p:p5): void {
     const K = p.key.toLowerCase();
     if (K === 'f') {
       PLAYER2.putBomb();
@@ -175,7 +179,7 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  activeShield1(p:p5) {
+  activeShield1(p:p5): void {
     const K = p.key.toLowerCase();
     if (K === 'o') {
       PLAYER1.protectActive();
@@ -183,14 +187,14 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  activeShield2(p:p5) {
+  activeShield2(p:p5): void {
     const K = p.key.toLowerCase();
     if (K === 'g') {
       PLAYER2.protectActive();
     }
   }
 
-  keypress(p: p5) {
+  keypress(p: p5): void {
     this.movePlayer1(p);
     this.movePlayer2(p);
     this.putBomb1(p);
@@ -202,7 +206,7 @@ export default class App {
     }
   }
 
-  button(p:p5, xButton:number, yButton:number, wButton:number, hButton:number, screen:number) {
+  button(p:p5, xButton:number, yButton:number, wButton:number, hButton:number, screen:number):void {
     const widthB = xButton + wButton;
     const heightB = yButton + hButton;
     if (xButton < p.mouseX && p.mouseX < widthB && yButton < p.mouseY && p.mouseY < heightB) {
@@ -210,33 +214,33 @@ export default class App {
     }
   }
 
-  buttonScreen0(p:p5) {
+  buttonScreen0(p:p5): void {
     if (this.screen === 0) {
-      this.button(p, 512, 440, 162, 52, 2);
-      this.button(p, 505, 518, 195, 52, 1);
+      this.button(p, 512, 440, 162, 52, 2); // play
+      this.button(p, 505, 518, 195, 52, 1); // instructions
     }
   }
 
-  buttonScreen1(p:p5) {
+  buttonScreen1(p:p5): void {
     if (this.screen === 1) {
-      this.button(p, 800, 620, 162, 52, 2);
+      this.button(p, 800, 620, 162, 52, 2); // play
     }
   }
 
-  buttonScreen2(p:p5) {
+  buttonScreen2(p:p5): void {
     if (this.screen === 2) {
-      this.button(p, 540, 620, 121, 39, 3);
+      this.button(p, 540, 620, 121, 39, 3); // play
     }
   }
 
-  mousePressed(p:p5) {
+  mousePressed(p:p5): void {
     this.buttonScreen0(p);
     this.buttonScreen1(p);
     this.buttonScreen2(p);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  showPlayers(p:p5) {
+  showPlayers(p:p5): void {
     PLAYERS.forEach((player) => {
       player.show(p, this.shield);
       // player.plusEnemyPoints(this.enemies);
@@ -244,7 +248,7 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  setPositionPlayers() {
+  setPositionPlayers(): void {
     PLAYER1.setFil(17);
     PLAYER1.setCol(13);
     PLAYER2.setFil(1);
@@ -252,19 +256,19 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  setLevelPlayers(level:Array<Array<number>>) {
+  setLevelPlayers(level:Array<Array<number>>): void {
     PLAYERS.forEach((player) => {
       player.setLevel(level);
     });
   }
 
-  showBombs(p:p5) {
+  showBombs(p:p5): void {
     PLAYERS.forEach((player) => {
       player.showBomb(p, this.bomb, this.enemies);
     });
   }
 
-  showEnemies(p:p5) {
+  showEnemies(p:p5): void {
     this.enemies.forEach((enemy) => {
       enemy.setMap(MAP);
       enemy.show(p);
@@ -278,26 +282,26 @@ export default class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  truePositionPlayers() {
+  truePositionPlayers(): void {
     PLAYERS.forEach((player) => {
       player.truePosition();
     });
   }
 
-  enemyDissapear(enemy: Enemy) {
+  enemyDissapear(enemy: Enemy): void {
     if (enemy.getDie() === true) {
       this.enemies.splice(this.enemies.indexOf(enemy), 1);
       this.countKillEnemies += 1;
     }
   }
 
-  killenemies() {
+  killenemies(): void {
     PLAYERS.forEach((player) => {
       player.killEnemy(this.enemies);
     });
   }
 
-  activeZonesPj1() {
+  activeZonesPj1(): void {
     if (MAP.level1[PLAYER1.getCol()][PLAYER1.getFil()] === 3 && this.activeRace === false) {
       this.player1Race += 1;
       this.activeRace = true;
@@ -308,7 +312,7 @@ export default class App {
     }
   }
 
-  activeZonesPj2() {
+  activeZonesPj2(): void {
     if (MAP.level1[PLAYER2.getCol()][PLAYER2.getFil()] === 3 && this.activeRace === false) {
       this.player2Race += 1;
       this.activeRace = true;
@@ -319,12 +323,12 @@ export default class App {
     }
   }
 
-  level1() {
+  level1(): void {
     this.activeZonesPj1();
     this.activeZonesPj2();
   }
 
-  showGui(p:p5) {
+  showGui(p:p5): void {
     p.image(this.gui, 0, 0);
     p.fill(54, 18, 81);
     p.textSize(40);
@@ -335,7 +339,7 @@ export default class App {
     p.text(PLAYER2.getLives(), 45, 563);
   }
 
-  textRace(p:p5) {
+  textRace(p:p5): void {
     p.fill(54, 18, 81);
     p.textSize(25);
     p.text(`
@@ -347,37 +351,36 @@ export default class App {
     ${this.player2Race}/7`, 170, 527);
   }
 
-  textSpaces(p:p5) {
+  textSpaces(p:p5): void {
     p.fill(54, 18, 81);
     p.textSize(25);
     p.text(`
-    ${this.spacePurple}/50`, 170, 257);
+    ${this.spacePurple}/75`, 170, 257);
 
     p.fill(0, 83, 38);
     p.textSize(25);
     p.text(`
-    ${this.spaceGreen}/50`, 170, 527);
+    ${this.spaceGreen}/75`, 170, 527);
   }
 
-  textEnemies(p:p5) {
+  textEnemies(p:p5): void {
     p.fill(54, 18, 81);
     p.textSize(25);
     p.text(`
-    ${this.countKillEnemies}/15`, 170, 257);
+    ${this.countKillEnemies}/20`, 170, 257);
 
     p.fill(0, 83, 38);
     p.textSize(25);
     p.text(`
-    ${this.countKillEnemies}/15`, 170, 527);
+    ${this.countKillEnemies}/20`, 170, 527);
   }
 
-  resetSpaces() {
-    this.spaceGreen = 0;
-    this.spacePurple = 0;
+  timePlaying(): number {
+    return (Math.floor(this.milis / 1000) / 60);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  textScore(p:p5) {
+  textScore(p:p5): void {
     p.fill(54, 18, 81);
     p.textSize(35);
     p.text(PLAYER1.getPoints(), 370, 333);
@@ -385,6 +388,9 @@ export default class App {
     p.fill(0, 83, 38);
     p.textSize(35);
     p.text(PLAYER2.getPoints(), 720, 333);
+
+    p.fill(0, 65, 105);
+    p.text(`${this.timePlaying()} min`, 485, 187);
   }
 
   dead() {
@@ -409,6 +415,7 @@ export default class App {
         break;
 
       case 3:
+        this.milis = p.millis();
         setTimeout(() => {
           this.viewLvl1 = false;
         }, 6000);
@@ -432,12 +439,12 @@ export default class App {
         }
         break;
       case 4:
+        this.milis += p.millis();
         setTimeout(() => {
           this.viewLvl2 = false;
         }, 6000);
 
         MAP.show(p, MAP.level2);
-        this.resetSpaces();
         this.spacePurple = MAP.countPurpleSpace();
         this.spaceGreen = MAP.countGreenSpace();
         this.showPlayers(p);
@@ -448,7 +455,7 @@ export default class App {
         this.textSpaces(p);
         MAP.changeColorPurple(PLAYER1.getFil(), PLAYER1.getCol());
         MAP.changeColorGreen(PLAYER2.getFil(), PLAYER2.getCol());
-        if (this.spacePurple === 50 || this.spaceGreen === 50) {
+        if (this.spacePurple === 75 || this.spaceGreen === 75) {
           PLAYER1.plusPoints((this.spacePurple * 30));
           PLAYER2.plusPoints((this.spaceGreen * 30));
           this.screen += 1;
@@ -460,21 +467,21 @@ export default class App {
         }
         break;
       case 5:
+        this.milis += p.millis();
         setTimeout(() => {
           this.viewLvl3 = false;
         }, 6000);
 
         MAP.show(p, MAP.level3);
-        this.resetSpaces();
         this.showPlayers(p);
         this.setLevelPlayers(MAP.level3);
+        this.randomEnemy(p);
         this.showBombs(p);
         this.killenemies();
-        this.randomEnemy(p);
         this.showEnemies(p);
         this.showGui(p);
         this.textEnemies(p);
-        if (this.enemies.length === 0 && this.count === 15) {
+        if (this.enemies.length === 0 && this.count === 20) {
           this.screen += 1;
         }
         if (this.viewLvl3 === true) {
@@ -485,6 +492,7 @@ export default class App {
       case 6:
         p.image(this.score, 0, 0);
         this.textScore(p);
+        this.win(p);
         break;
 
       default:
@@ -492,9 +500,17 @@ export default class App {
     }
   }
 
+  win(p:p5): void {
+    if (PLAYER1.getPoints() > PLAYER2.getPoints()) {
+      p.image(this.crown, 365, 370);
+    } else {
+      p.image(this.crown, 715, 370);
+    }
+  }
+
   // eslint-disable-next-line class-methods-use-this
-  randomEnemy(p:p5) {
-    if (p.frameCount % 200 === 0 && this.count < 15) {
+  randomEnemy(p:p5): void {
+    if (p.frameCount % 150 === 0 && this.count < 20) {
       const num = Math.round(p.random(1));
       const i = Math.floor(p.random(19));
       const j = Math.floor(p.random(15));
@@ -504,7 +520,7 @@ export default class App {
         col: j,
       };
 
-      if (MAP.canMove(i, j, MAP.level1)) {
+      if (MAP.canMove(i, j, MAP.level3)) {
         // eslint-disable-next-line default-case
         switch (num) {
           case 0:

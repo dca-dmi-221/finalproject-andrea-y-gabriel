@@ -19,32 +19,32 @@ export default class Bomb {
     this.posY = (this.col * BOMBSIZE);
   }
 
-  show(p: p5) { // n?
+  show(p: p5): void {
     p.image(this.image, this.posX, this.posY);
   }
 
-  destroyRightShrub(level: Array<Array<number>>) {
+  destroyRightShrub(level: Array<Array<number>>): void {
     if (level[this.col][this.fil + 1] === 2) {
       // eslint-disable-next-line no-param-reassign
       level[this.col][this.fil + 1] = 0;
     }
   }
 
-  destroyLeftShrub(level: Array<Array<number>>) {
+  destroyLeftShrub(level: Array<Array<number>>): void {
     if (level[this.col][this.fil - 1] === 2) {
       // eslint-disable-next-line no-param-reassign
       level[this.col][this.fil - 1] = 0;
     }
   }
 
-  destroyUpShrub(level: Array<Array<number>>) {
+  destroyUpShrub(level: Array<Array<number>>): void {
     if (level[this.col - 1][this.fil] === 2) {
       // eslint-disable-next-line no-param-reassign
       level[this.col - 1][this.fil] = 0;
     }
   }
 
-  destroyDownShrub(level: Array<Array<number>>) {
+  destroyDownShrub(level: Array<Array<number>>): void {
     if (level[this.col + 1][this.fil] === 2) {
       // eslint-disable-next-line no-param-reassign
       level[this.col + 1][this.fil] = 0;
@@ -65,7 +65,7 @@ export default class Bomb {
       this.destroyShrub(level);
       this.killEnemy(enemies);
     }, 1000);
-    return 20;
+    return 20; // puntos por destruir arbustos
   }
 
   killEnemy(enemies: Array<Enemy>): void {
@@ -78,7 +78,7 @@ export default class Bomb {
       || (enemy.col === this.col - 1 && enemy.fil === this.fil)
       || (enemy.fil === this.fil && enemy.col === this.col)) {
           enemy.lessLives();
-          this.lessLives = false;
+          this.lessLives = false; // controla el perder una vida a la vez
         }
       }
     }

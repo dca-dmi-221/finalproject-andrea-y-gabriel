@@ -34,7 +34,7 @@ export default class Player {
     this.posY = (col * PLAYERSIZE);
   }
 
-  show(p: p5, shield: Image) {
+  show(p: p5, shield: Image): void {
     if (this.lives > 0) {
       if (this.direction === 'DOWN') {
         p.image(this.image1, this.posX - 9.5, this.posY - 48);
@@ -49,31 +49,31 @@ export default class Player {
     }
   }
 
-  moveDown() {
+  moveDown(): void {
     if (this.refMap.canMove(this.pcFil, this.pcCol + 1, this.level)) {
       this.pcCol += 1;
     }
   }
 
-  moveUp() {
+  moveUp(): void {
     if (this.refMap.canMove(this.pcFil, this.pcCol - 1, this.level)) {
       this.pcCol -= 1;
     }
   }
 
-  moveLeft() {
+  moveLeft(): void {
     if (this.refMap.canMove(this.pcFil - 1, this.pcCol, this.level)) {
       this.pcFil -= 1;
     }
   }
 
-  moveRight() {
+  moveRight(): void {
     if (this.refMap.canMove(this.pcFil + 1, this.pcCol, this.level)) {
       this.pcFil += 1;
     }
   }
 
-  move(direction: PlayerDirection) {
+  move(direction: PlayerDirection): void {
     // eslint-disable-next-line default-case
     switch (direction) {
       case 'DOWN':
@@ -93,12 +93,12 @@ export default class Player {
     this.truePosition();
   }
 
-  truePosition() {
+  truePosition(): void {
     this.posX = (this.pcFil * PLAYERSIZE) + 288;
     this.posY = (this.pcCol * PLAYERSIZE);
   }
 
-  putBomb() {
+  putBomb(): void {
     this.bombs.push(new Bomb(this.pcFil, this.pcCol));
   }
 
@@ -106,13 +106,13 @@ export default class Player {
     this.bombs.splice(this.bombs.indexOf(bomb), 1);
   }
 
-  showBomb(p:p5, image:Image, enemies: Array<Enemy>) { // n
+  showBomb(p:p5, image:Image, enemies: Array<Enemy>): void { // n
     this.bombs.forEach((bomb) => {
       bomb.setImage(image);
       bomb.show(p);
       if (bomb.boom === true) {
         this.deleteBomb(bomb);
-        this.plusPoints(bomb.bombBoom(this.level, enemies));
+        this.plusPoints(bomb.bombBoom(this.level, enemies)); // puntos arbusto
         for (let i = 0; i < enemies.length; i += 1) {
           const enemy = enemies[i];
           if (enemy.getLives() === 0) {
@@ -123,13 +123,13 @@ export default class Player {
     });
   }
 
-  killEnemy(enemies: Array<Enemy>) { // n
+  killEnemy(enemies: Array<Enemy>): void { // n
     this.bombs.forEach((bomb) => {
       bomb.bombBoom(this.level, enemies);
     });
   }
 
-  showShield(p:p5, shield:Image) { // nueva función
+  showShield(p:p5, shield:Image): void { // nueva función
     this.shield = new Shield(this.pcFil, this.pcCol);
     this.shield.setImage(shield);
     if (this.shieldActive) {
@@ -137,7 +137,7 @@ export default class Player {
     }
   }
 
-  protectActive() { // nueva función
+  protectActive(): boolean { // nueva función
     let result = false;
     if (this.canUseShield) {
       this.shieldActive = true;
@@ -148,28 +148,28 @@ export default class Player {
     return result;
   }
 
-  deactivateShield() { // nueva función
+  deactivateShield(): void { // nueva función
     setTimeout(() => {
       this.protecDesactive();
       this.enableShield();
     }, 4000);
   }
 
-  enableShield() { // nueva función
+  enableShield(): void { // nueva función
     setTimeout(() => {
       this.canUseShield = true;
     }, 3000);
   }
 
-  protecDesactive() { // nueva función
+  protecDesactive(): void { // nueva función
     this.shieldActive = false;
   }
 
-  plusPoints(points:number) {
+  plusPoints(points:number): void {
     this.points += points;
   }
 
-  dead(filEne: number, colEne: number, fil: number, col: number) {
+  dead(filEne: number, colEne: number, fil: number, col: number): void {
     if (this.shieldActive === false) {
       if (this.pcFil === filEne && this.pcCol === colEne && this.lives > 0) {
         this.lives -= 1;
@@ -179,67 +179,67 @@ export default class Player {
     }
   }
 
-  getX() {
+  getX(): number {
     return this.posX;
   }
 
-  getY() {
+  getY(): number {
     return this.posY;
   }
 
-  getFil() {
+  getFil(): number {
     return this.pcFil;
   }
 
-  getCol() {
+  getCol(): number {
     return this.pcCol;
   }
 
-  getLives() {
+  getLives(): number {
     return this.lives;
   }
 
-  getPoints() {
+  getPoints(): number {
     return this.points;
   }
 
-  setPoints(points:number) {
+  setPoints(points:number): void {
     this.points = points;
   }
 
-  setLives(lives:number) {
+  setLives(lives:number): void {
     this.lives = lives;
   }
 
-  setFil(fil: number) {
+  setFil(fil: number): void {
     this.pcFil = fil;
   }
 
-  setCol(col: number) {
+  setCol(col: number): void {
     this.pcCol = col;
   }
 
-  setMap(m:Map) {
+  setMap(m:Map): void {
     this.refMap = m;
   }
 
-  setLevel(level:Array<Array<number>>) {
+  setLevel(level:Array<Array<number>>): void {
     this.level = level;
   }
 
-  setImage1(i:Image) { // n
+  setImage1(i:Image): void { // n
     this.image1 = i;
   }
 
-  setImage2(i:Image) { // n
+  setImage2(i:Image): void { // n
     this.image2 = i;
   }
 
-  setImage3(i:Image) { // n
+  setImage3(i:Image): void { // n
     this.image3 = i;
   }
 
-  setImage4(i:Image) { // n
+  setImage4(i:Image): void { // n
     this.image4 = i;
   }
 }

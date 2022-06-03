@@ -3,9 +3,6 @@ import p5, { Image } from 'p5';
 const SIZE = 48;
 
 export default class Map {
-  r: number;
-  g: number;
-  b: number;
   sand!: Image;
   rock!: Image;
   shrub!: Image;
@@ -13,27 +10,21 @@ export default class Map {
   purple!: Image;
   green!: Image;
 
-  constructor() {
-    this.r = 255;
-    this.g = 255;
-    this.b = 255;
-  }
-
   level1: Array<Array<number>> = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1],
+    [1, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 1],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 1],
+    [1, 3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 2, 1],
     [1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 6, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 6, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
-    [1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+    [1, 2, 0, 1, 1, 1, 1, 1, 1, 2, 0, 0, 2, 0, 0, 0, 2, 0, 1],
+    [1, 2, 0, 1, 1, 1, 1, 1, 1, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1],
+    [1, 0, 0, 2, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
+    [1, 0, 2, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 0, 1],
+    [1, 0, 2, 1, 1, 1, 0, 2, 0, 1, 1, 1, 2, 0, 2, 6, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 6, 0, 2, 1],
+    [1, 2, 0, 1, 1, 1, 0, 2, 0, 0, 2, 0, 0, 2, 1, 1, 1, 1, 1],
+    [1, 2, 0, 1, 1, 1, 2, 0, 2, 0, 0, 0, 2, 0, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ];
 
@@ -57,23 +48,23 @@ export default class Map {
 
   level3: Array<Array<number>> = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1],
-    [1, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 1],
-    [1, 2, 2, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 2, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 1],
+    [1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1],
+    [1, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 1],
+    [1, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 1],
+    [1, 0, 0, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 0, 0, 1],
     [1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1],
     [1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1],
-    [1, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 2, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 1],
-    [1, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 1],
-    [1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1],
+    [1, 0, 0, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 0, 0, 1],
+    [1, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 1],
+    [1, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 1],
+    [1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ];
 
-  show(p:p5, level: Array<Array<number>>) {
+  show(p:p5, level: Array<Array<number>>): void {
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
         if (level[i][j] === 1) {
@@ -90,7 +81,6 @@ export default class Map {
         } else if (level[i][j] === 5) {
           p.image(this.green, (j * SIZE) + 288, (i * SIZE));
         } else {
-          p.fill(this.r, this.g, this.b);
           p.image(this.sand, (j * SIZE) + 288, (i * SIZE));
         }
       }
@@ -114,7 +104,7 @@ export default class Map {
     return result;
   }
 
-  changeColorPurple(fil:number, col:number) { // nueva funcion
+  changeColorPurple(fil:number, col:number): void { // nueva funcion
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
         if (this.level2[i][j] === this.level2[col][fil]) {
@@ -124,7 +114,7 @@ export default class Map {
     }
   }
 
-  countPurpleSpace() { // nueva funcion
+  countPurpleSpace(): number { // nueva funcion
     let spaces: number = 0;
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
@@ -136,7 +126,7 @@ export default class Map {
     return spaces;
   }
 
-  changeColorGreen(fil:number, col:number) { // nueva funcion
+  changeColorGreen(fil:number, col:number): void { // nueva funcion
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
         if (this.level2[i][j] === this.level2[col][fil]) {
@@ -146,7 +136,7 @@ export default class Map {
     }
   }
 
-  countGreenSpace() { // nueva funcion
+  countGreenSpace(): number { // nueva funcion
     let spaces: number = 0;
     for (let i = 0; i < 15; i += 1) {
       for (let j = 0; j < 19; j += 1) {
@@ -158,27 +148,27 @@ export default class Map {
     return spaces;
   }
 
-  setSand(i:Image) {
+  setSand(i:Image): void {
     this.sand = i;
   }
 
-  setRock(i:Image) {
+  setRock(i:Image): void {
     this.rock = i;
   }
 
-  setShrub(i:Image) {
+  setShrub(i:Image): void {
     this.shrub = i;
   }
 
-  setRace(i:Image) {
+  setRace(i:Image): void {
     this.race = i;
   }
 
-  setPurple(i:Image) {
+  setPurple(i:Image): void {
     this.purple = i;
   }
 
-  setGreen(i:Image) {
+  setGreen(i:Image): void {
     this.green = i;
   }
 }

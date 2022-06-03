@@ -16,11 +16,11 @@ export default class Shield {
     this.posY = (this.col * SHIELDSIZE);
   }
 
-  show(p: p5) {
+  show(p: p5): void {
     p.image(this.image, this.posX - 9.5, this.posY - SHIELDSIZE);
   }
 
-  setImage(i:Image) {
+  setImage(i:Image): void {
     this.image = i;
   }
 }
